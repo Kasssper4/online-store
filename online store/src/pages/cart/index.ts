@@ -12,3 +12,5 @@ export class CartPage extends Page {
         return this.container;
     }
 }
+
+export default CartPage;
