@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+}
+
+.items-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-between;
+    background: #ccc;
+}
+
+.item-wrap {
+    width: 20%;
+    height: min-content;
+    background: rgb(79, 255, 182);
+}
+
+.product-image-wrap {
+    width: 100%;
+}
+.product-image-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
