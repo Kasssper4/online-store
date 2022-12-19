@@ -1,7 +1,7 @@
 import MainPage from '../main/index';
-import { CartPage } from '../cart/index';
-import { Page } from '../../patterns/pagePattern';
+import CartPage from '../cart/index';
 import Header from '../components/header/index';
+import { Page } from '../../patterns/pagePattern';
 
 export const enum PageIds {
     MainPage = 'main-page',
@@ -9,7 +9,7 @@ export const enum PageIds {
 }
 
 class App {
-    private static container: HTMLElement;
+    private static container: HTMLElement = document.body;
     private static defaultPageId = 'current-page';
     private header: Header;
 
@@ -29,7 +29,7 @@ class App {
         if (page) {
             const pageHTML = page.render();
             pageHTML.id = App.defaultPageId;
-            document.body.append(pageHTML);
+            App.container.append(pageHTML);
         }
     }
 
@@ -45,7 +45,6 @@ class App {
     }
 
     run() {
-        console.log(this.header);
         App.container.append(this.header.render());
         App.renderNewPage('main-page');
         this.enableRouteChange();
