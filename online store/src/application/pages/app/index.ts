@@ -2,10 +2,12 @@ import MainPage from '../main/index';
 import CartPage from '../cart/index';
 import Header from '../components/header/index';
 import { Page } from '../../patterns/pagePattern';
+import ProductPage from '../product page/productPage';
 
 export const enum PageIds {
     MainPage = 'main-page',
     CartPage = 'cart-page',
+    ProductPage = 'product-page',
 }
 
 class App {
@@ -21,9 +23,13 @@ class App {
         let page: Page | null = null;
 
         if (idPage === PageIds.MainPage) {
+            console.log('main');
             page = new MainPage(idPage);
         } else if (idPage === PageIds.CartPage) {
+            console.log('cart');
             page = new CartPage(idPage);
+        } else if (/product-page/.test(idPage)) {
+            page = new ProductPage(PageIds.ProductPage, idPage.split('/')[1]);
         }
 
         if (page) {
