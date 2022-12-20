@@ -1,4 +1,5 @@
 import { IProductInfo } from '../../interfaces/interfaces';
+import { PageIds } from '../../pages/app/index';
 
 export class ProductItem {
     prodList = document.createElement('div');
@@ -10,12 +11,13 @@ export class ProductItem {
 
     render() {
         this.loadAllProducts().then((productsList) =>
-            productsList.products.map((productItem) => {
-                const prodItemWrap = document.createElement('div');
+            productsList.products.map((productItem, i) => {
+                const prodItemWrap = document.createElement('a');
                 const prodImageWrap = document.createElement('div');
                 prodImageWrap.classList.add('product-image-wrap');
 
                 prodItemWrap.className = 'item-wrap';
+                prodItemWrap.href = `#${PageIds.ProductPage}/${i + 1}`;
                 prodItemWrap.append(productItem.title);
 
                 const productImage = document.createElement('img');
