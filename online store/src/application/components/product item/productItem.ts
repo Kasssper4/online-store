@@ -17,7 +17,8 @@ export class ProductItem {
                 prodImageWrap.classList.add('product-image-wrap');
 
                 prodItemWrap.className = 'item-wrap';
-                prodItemWrap.href = `#${PageIds.ProductPage}/${i + 1}`;
+                const href = `#${PageIds.ProductPage}/${i + 1}`;
+                prodItemWrap.href = href;
                 prodItemWrap.append(productItem.title);
 
                 const productImage = document.createElement('img');
