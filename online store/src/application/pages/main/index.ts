@@ -1,3 +1,4 @@
+import { FiltersList } from '../../components/filters/filters';
 import { ProductItem } from '../../components/product item/productItem';
 import { ProductsList } from '../../components/product List/productsList';
 import { Page } from '../../patterns/pagePattern';
@@ -8,16 +9,20 @@ class MainPage extends Page {
     };
     private productsList = new ProductsList();
     private productItem = new ProductItem();
+    private filters: FiltersList;
 
-    constructor(id: string) {
+    constructor(id: string, query: string) {
         super(id);
+        this.filters = new FiltersList(query);
     }
 
     render() {
         const title = this.createHeader(`Online store. ${MainPage.TextObj.MainTitle}.`);
         this.container.append(title);
-        this.container.append(this.productsList.render());
-        this.container.append(this.productItem.render());
+        const main = document.createElement('main');
+        main.className = 'main-page-main';
+        main.append(this.filters.render(), this.productItem.render());
+        this.container.append(main);
         return this.container;
     }
 }

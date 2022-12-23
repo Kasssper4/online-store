@@ -2,7 +2,7 @@ import { IProductInfo } from '../../interfaces/interfaces';
 import { PageIds } from '../../pages/app/index';
 
 export class ProductItem {
-    prodList = document.createElement('div');
+    prodList = document.createElement('section');
     async loadAllProducts() {
         const response = await fetch('https://dummyjson.com/products');
         const parseResponse: Promise<IProductInfo> = await response.json();

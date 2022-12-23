@@ -15,19 +15,21 @@ class App {
     private static defaultPageId = 'current-page';
     private header: Header;
 
-    static renderNewPage(idPage: string) {
+    static renderNewPage(idPage: string, query: string) {
         const currentPage = document.querySelector(`#${App.defaultPageId}`);
         if (currentPage) {
             currentPage.remove();
         }
         let page: Page | null = null;
 
-        if (idPage === PageIds.MainPage) {
-            page = new MainPage(idPage);
+        if (idPage === PageIds.MainPage || idPage === '') {
+            page = new MainPage(idPage, query);
         } else if (idPage === PageIds.CartPage) {
             page = new CartPage(idPage);
         } else if (/products/.test(idPage)) {
             page = new ProductPage(PageIds.ProductPage, idPage.split('/')[1]);
+        } else {
+            console.log('else url', idPage);
         }
 
         if (page) {
@@ -49,7 +51,7 @@ class App {
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
             localStorage.setItem('page', `${hash}`);
-            App.renderNewPage(hash);
+            App.renderNewPage(hash, window.location.search);
         });
     }
 
@@ -57,10 +59,25 @@ class App {
         this.header = new Header('header', 'header-container');
     }
 
+    findRouteWhenLoad() {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.hash === '' || window.location.hash === '#main-page') {
+                App.renderNewPage('main-page', window.location.search);
+            } else if (/product-page/.test(window.location.hash)) {
+                App.renderNewPage(window.location.hash.slice(1), '');
+            }
+        });
+    }
+
     run() {
         App.container.append(this.header.render());
+// diana-route-test отсюда
+        App.renderNewPage('main-page', window.location.search);
+// =====
         App.renderNewPage(this.localStorageCheck());
+// testing-structure-w-route
         this.enableRouteChange();
+        this.findRouteWhenLoad();
     }
 }
 
