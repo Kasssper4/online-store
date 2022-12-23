@@ -7,7 +7,7 @@ import ProductPage from '../product page/productPage';
 export const enum PageIds {
     MainPage = 'main-page',
     CartPage = 'cart-page',
-    ProductPage = 'product-page',
+    ProductPage = 'products',
 }
 
 class App {
@@ -25,9 +25,8 @@ class App {
         if (idPage === PageIds.MainPage || idPage === '') {
             page = new MainPage(idPage, query);
         } else if (idPage === PageIds.CartPage) {
-            console.log('cart');
             page = new CartPage(idPage);
-        } else if (/product-page/.test(idPage)) {
+        } else if (/products/.test(idPage)) {
             page = new ProductPage(PageIds.ProductPage, idPage.split('/')[1]);
         } else {
             console.log('else url', idPage);
@@ -40,9 +39,18 @@ class App {
         }
     }
 
+    private localStorageCheck(): string {
+        if (localStorage.getItem('page') !== undefined) {
+            return String(localStorage.getItem('page'));
+        } else {
+            return 'main-page';
+        }
+    }
+
     private enableRouteChange() {
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.slice(1);
+            localStorage.setItem('page', `${hash}`);
             App.renderNewPage(hash, window.location.search);
         });
     }
@@ -63,7 +71,11 @@ class App {
 
     run() {
         App.container.append(this.header.render());
+// diana-route-test отсюда
         App.renderNewPage('main-page', window.location.search);
+// =====
+        App.renderNewPage(this.localStorageCheck());
+// testing-structure-w-route
         this.enableRouteChange();
         this.findRouteWhenLoad();
     }
