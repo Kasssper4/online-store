@@ -71,11 +71,8 @@ class App {
 
     run() {
         App.container.append(this.header.render());
-// diana-route-test отсюда
         App.renderNewPage('main-page', window.location.search);
-// =====
-        App.renderNewPage(this.localStorageCheck());
-// testing-structure-w-route
+        App.renderNewPage(this.localStorageCheck(), window.location.search);
         this.enableRouteChange();
         this.findRouteWhenLoad();
     }
