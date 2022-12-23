@@ -52,10 +52,11 @@ class App {
     }
 
     findRouteWhenLoad() {
-        document.addEventListener('DOMContentLoaded', (e) => {
-            console.log('load ', e, window.location);
+        document.addEventListener('DOMContentLoaded', () => {
             if (window.location.hash === '' || window.location.hash === '#main-page') {
                 App.renderNewPage('main-page', window.location.search);
+            } else if (/product-page/.test(window.location.hash)) {
+                App.renderNewPage(window.location.hash.slice(1), '');
             }
         });
     }
