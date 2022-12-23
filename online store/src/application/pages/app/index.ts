@@ -22,7 +22,7 @@ class App {
         }
         let page: Page | null = null;
 
-        if (idPage === PageIds.MainPage) {
+        if (idPage === PageIds.MainPage || idPage === '') {
             page = new MainPage(idPage, query);
         } else if (idPage === PageIds.CartPage) {
             console.log('cart');
@@ -30,7 +30,7 @@ class App {
         } else if (/product-page/.test(idPage)) {
             page = new ProductPage(PageIds.ProductPage, idPage.split('/')[1]);
         } else {
-            console.log('else url');
+            console.log('else url', idPage);
         }
 
         if (page) {
