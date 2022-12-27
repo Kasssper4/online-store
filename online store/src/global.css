@@ -6,14 +6,19 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
-    justify-content: space-between;
+    justify-content: center;
     background: #ccc;
+    align-items: stretch;
 }
 
 .item-wrap {
-    width: 20%;
+    width: 23%;
     height: min-content;
     background: rgb(79, 255, 182);
+    color: brown;
+    text-decoration: none;
+    font-size: 20px;
+    text-transform: uppercase;
 }
 
 .product-image-wrap {
@@ -35,3 +40,8 @@ body {
     overflow: scroll;
 }
 
+.prod-item-description {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
