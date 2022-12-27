@@ -1,6 +1,8 @@
+import { IProductInfo } from '../../interfaces/interfaces';
+
 export class FiltersList {
     static filterSection = document.createElement('section');
-    static categotiesArr = [
+    static categoriesArr = [
         'smartphones',
         'laptops',
         'fragrances',
@@ -28,6 +30,12 @@ export class FiltersList {
         this.query = query;
     }
 
+    async loadAllProducts(category: string) {
+        const response = await fetch(`https://dummyjson.com/products/category/${category}`);
+        const parseResponse: Promise<IProductInfo> = await response.json();
+        return parseResponse;
+    }
+
     render() {
         const queryParamsArr = this.query
             .slice(1)
@@ -41,7 +49,7 @@ export class FiltersList {
         const formCategories = document.createElement('form');
         formCategories.className = 'filter-form categories';
 
-        FiltersList.categotiesArr.forEach((el) => {
+        FiltersList.categoriesArr.forEach((el) => {
             const inputWrap = document.createElement('p');
             inputWrap.className = 'filter-checkbox';
             let checked = false;

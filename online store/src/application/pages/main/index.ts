@@ -1,13 +1,11 @@
 import { FiltersList } from '../../components/filters/filters';
 import { ProductItem } from '../../components/product item/productItem';
-import { ProductsList } from '../../components/product List/productsList';
 import { Page } from '../../patterns/pagePattern';
 
 class MainPage extends Page {
     static TextObj = {
         MainTitle: 'Main page',
     };
-    private productsList = new ProductsList();
     private productItem = new ProductItem();
     private filters: FiltersList;
 
