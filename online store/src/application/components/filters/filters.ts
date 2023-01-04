@@ -1,3 +1,5 @@
+import { QueryParams } from '../queryParams';
+
 export class FiltersList {
     static filterSection = document.createElement('section');
     query: string;
@@ -57,19 +59,9 @@ export class FiltersList {
         this.query = query;
     }
 
-    getQueryParams(criterion: string) {
-        const queryParams = this.query
-            .slice(1)
-            .split('&')
-            .filter((el) => {
-                if (el.split('=')[0] === criterion) return el;
-            })
-            .map((el) => el.split('=')[1]);
-        return queryParams;
-    }
-
     createCheckbox(criterion: string) {
-        const queryParamsArr = this.getQueryParams(criterion);
+        const query = new QueryParams();
+        const queryParamsArr = query.getQueryParams(criterion);
         const checkboxBlock = document.createElement('div');
         checkboxBlock.className = 'checkbox';
         const header = document.createElement('h3');
@@ -123,8 +115,9 @@ export class FiltersList {
     }
 
     createRange(criterion: string) {
-        const queryParamsArrFrom = this.getQueryParams(criterion + 'From');
-        const queryParamsArrTo = this.getQueryParams(criterion + 'To');
+        const query = new QueryParams();
+        const queryParamsArrFrom = query.getQueryParams(criterion + 'From');
+        const queryParamsArrTo = query.getQueryParams(criterion + 'To');
         const rangeBlock = document.createElement('div');
         rangeBlock.className = 'slider';
         const header = document.createElement('h3');
