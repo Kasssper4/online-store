@@ -1,13 +1,16 @@
 import { IProductInfo } from '../../interfaces/interfaces';
 import { PageIds } from '../../pages/app/index';
+import { ControlPanel } from '../control panel/controlPanel';
 
-export class ProductItem {
-    query: string;
-    constructor(query: string) {
-        this.query = query;
+export class ProductsList {
+    private controlPanel: ControlPanel;
+
+    constructor() {
+        this.controlPanel = new ControlPanel();
     }
 
-    prodList = document.createElement('section');
+    private prodSection = document.createElement('section');
+    private prodList = document.createElement('div');
 
     async loadAllProducts() {
         const response = await fetch('https://dummyjson.com/products');
@@ -42,7 +45,11 @@ export class ProductItem {
         return Object.entries(paramsObj).filter((el) => el[1].length > 0);
     }
 
-    render() {
+    // createControlBlock() {
+
+    // }
+
+    createProdListBlock() {
         const paramsArr = this.getParams();
 
         this.loadAllProducts().then((productsList) => {
@@ -99,7 +106,13 @@ export class ProductItem {
                 this.prodList.append(prodItemWrap);
             });
         });
-        this.prodList.className = 'items-wrap';
         return this.prodList;
+    }
+
+    render() {
+        this.prodSection.className = 'products';
+        this.prodList.className = 'items-wrap';
+        this.prodSection.append(this.controlPanel.render(), this.createProdListBlock());
+        return this.prodSection;
     }
 }

@@ -101,3 +101,17 @@ input[type=range]::-webkit-slider-thumb:active {
     height: 0;
     z-index: 1;
 }
+
+.control {
+    height: 80px;
+    border: 1px solid black;
+}
+
+.view-button {
+    width: 30px;
+    height: 30px;
+}
+
+.control {
+    display: flex;
+}

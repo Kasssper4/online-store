@@ -195,7 +195,7 @@ export class FiltersList {
     }
 
     render() {
-        FiltersList.filterSection.className = 'filters-wrap';
+        FiltersList.filterSection.className = 'filters';
 
         if (!FiltersList.filterSection.firstChild) {
             FiltersList.filterSection.append(
