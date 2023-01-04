@@ -8,12 +8,13 @@ class MainPage extends Page {
         MainTitle: 'Main page',
     };
     private productsList = new ProductsList();
-    private productItem = new ProductItem();
+    private productItem: ProductItem;
     private filters: FiltersList;
 
     constructor(id: string, query: string) {
         super(id);
         this.filters = new FiltersList(query);
+        this.productItem = new ProductItem(query);
     }
 
     render() {

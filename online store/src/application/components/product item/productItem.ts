@@ -2,16 +2,75 @@ import { IProductInfo } from '../../interfaces/interfaces';
 import { PageIds } from '../../pages/app/index';
 
 export class ProductItem {
+    query: string;
+    constructor(query: string) {
+        this.query = query;
+    }
+
     prodList = document.createElement('section');
+
     async loadAllProducts() {
         const response = await fetch('https://dummyjson.com/products');
         const parseResponse: Promise<IProductInfo> = await response.json();
         return parseResponse;
     }
 
+    getParams() {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+
+        function getRangeArr(criterion: string) {
+            let resArr: (string | null)[] = [];
+
+            if (params.get(`${criterion}From`) && params.get(`${criterion}To`)) {
+                resArr = [params.get(`${criterion}From`), params.get(`${criterion}To`)];
+            } else if (params.get(`${criterion}From`)) {
+                resArr = [params.get(`${criterion}From`), '100'];
+            } else if (params.get(`${criterion}To`)) {
+                resArr = ['0', params.get(`${criterion}To`)];
+            }
+            return resArr;
+        }
+
+        const paramsObj = {
+            category: params.getAll('categories'),
+            brand: params.getAll('brand'),
+            price: getRangeArr('price'),
+            stock: getRangeArr('stock'),
+        };
+
+        return Object.entries(paramsObj).filter((el) => el[1].length > 0);
+    }
+
     render() {
-        this.loadAllProducts().then((productsList) =>
-            productsList.products.map((productItem, i) => {
+        const paramsArr = this.getParams();
+
+        this.loadAllProducts().then((productsList) => {
+            let myList = productsList.products;
+            if (window.location.search !== '') {
+                myList = productsList.products.filter((productItem) => {
+                    let match = 0;
+                    paramsArr.forEach((param) => {
+                        if (
+                            (param[0] === 'brand' || param[0] === 'category') &&
+                            param[1].includes(String(productItem[param[0] as keyof typeof productItem]))
+                        ) {
+                            match += 1;
+                        } else if (
+                            (param[0] === 'price' || param[0] === 'stock') &&
+                            Number(productItem[param[0] as keyof typeof productItem]) >= Number(param[1][0]) &&
+                            Number(productItem[param[0] as keyof typeof productItem]) <= Number(param[1][1])
+                        ) {
+                            match += 1;
+                        }
+                    });
+                    if (match === paramsArr.length) {
+                        return productItem;
+                    }
+                });
+            }
+
+            myList.forEach((productItem, i) => {
                 const prodItemWrap = document.createElement('a');
                 const prodImageWrap = document.createElement('div');
                 prodImageWrap.classList.add('product-image-wrap');
@@ -38,8 +97,8 @@ export class ProductItem {
                 productImage.src = productItem.images[0];
 
                 this.prodList.append(prodItemWrap);
-            })
-        );
+            });
+        });
         this.prodList.className = 'items-wrap';
         return this.prodList;
     }
