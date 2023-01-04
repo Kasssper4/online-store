@@ -18,3 +18,8 @@ export interface IProductInfo {
     skip: number;
     limit: number;
 }
+
+export interface ISort {
+    price: number;
+    rating: number;
+}

@@ -61,7 +61,7 @@ export class FiltersList {
 
     createCheckbox(criterion: string) {
         const query = new QueryParams();
-        const queryParamsArr = query.getQueryParams(criterion);
+        const queryParamsArr = query.getQueryParam(criterion);
         const checkboxBlock = document.createElement('div');
         checkboxBlock.className = 'checkbox';
         const header = document.createElement('h3');
@@ -116,8 +116,8 @@ export class FiltersList {
 
     createRange(criterion: string) {
         const query = new QueryParams();
-        const queryParamsArrFrom = query.getQueryParams(criterion + 'From');
-        const queryParamsArrTo = query.getQueryParams(criterion + 'To');
+        const queryParamsArrFrom = query.getQueryParam(criterion + 'From');
+        const queryParamsArrTo = query.getQueryParam(criterion + 'To');
         const rangeBlock = document.createElement('div');
         rangeBlock.className = 'slider';
         const header = document.createElement('h3');

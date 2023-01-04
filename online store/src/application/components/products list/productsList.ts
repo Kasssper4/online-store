@@ -1,6 +1,7 @@
-import { IProductInfo } from '../../interfaces/interfaces';
+import { IProductInfo, ISort } from '../../interfaces/interfaces';
 import { PageIds } from '../../pages/app/index';
 import { ControlPanel } from '../control panel/controlPanel';
+import { QueryParams } from '../queryParams';
 
 export class ProductsList {
     private controlPanel: ControlPanel;
@@ -18,39 +19,9 @@ export class ProductsList {
         return parseResponse;
     }
 
-    getParams() {
-        const url = new URL(window.location.href);
-        const params = new URLSearchParams(url.search);
-
-        function getRangeArr(criterion: string) {
-            let resArr: (string | null)[] = [];
-
-            if (params.get(`${criterion}From`) && params.get(`${criterion}To`)) {
-                resArr = [params.get(`${criterion}From`), params.get(`${criterion}To`)];
-            } else if (params.get(`${criterion}From`)) {
-                resArr = [params.get(`${criterion}From`), '100'];
-            } else if (params.get(`${criterion}To`)) {
-                resArr = ['0', params.get(`${criterion}To`)];
-            }
-            return resArr;
-        }
-
-        const paramsObj = {
-            category: params.getAll('categories'),
-            brand: params.getAll('brand'),
-            price: getRangeArr('price'),
-            stock: getRangeArr('stock'),
-        };
-
-        return Object.entries(paramsObj).filter((el) => el[1].length > 0);
-    }
-
-    // createControlBlock() {
-
-    // }
-
     createProdListBlock() {
-        const paramsArr = this.getParams();
+        const params = new QueryParams();
+        const paramsArr = params.getAllFilterParams();
 
         this.loadAllProducts().then((productsList) => {
             let myList = productsList.products;
@@ -75,6 +46,22 @@ export class ProductsList {
                         return productItem;
                     }
                 });
+            }
+
+            const sortParam = params.getSortParam();
+            if (sortParam) {
+                const sortCriterion = sortParam.split('-')[0];
+                const sortOrder = sortParam.split('-')[1];
+                console.log(myList, sortParam, sortCriterion, sortOrder);
+                if (sortOrder === 'asc') {
+                    myList.sort((a, b) => {
+                        return a[sortCriterion as keyof ISort] - b[sortCriterion as keyof ISort];
+                    });
+                } else if (sortOrder === 'desc') {
+                    myList.sort((a, b) => {
+                        return b[sortCriterion as keyof ISort] - a[sortCriterion as keyof ISort];
+                    });
+                }
             }
 
             myList.forEach((productItem, i) => {

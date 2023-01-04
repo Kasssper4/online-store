@@ -21,7 +21,7 @@ export class ControlPanel {
             <option value = "rating-desc">Rating DESC</option>';
 
         const query = new QueryParams();
-        const querySortArr = query.getQueryParams('sort');
+        const querySortArr = query.getQueryParam('sort');
         if (querySortArr.length === 0) {
             select.firstElementChild?.setAttribute('selected', 'true');
         }
