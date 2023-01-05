@@ -18,13 +18,20 @@ class Header extends Component {
     }
 
     renderPageButtons() {
-        const pageButtons = document.createElement('div');
+        const pageButtons = document.createElement('nav');
+        pageButtons.className = 'header__nav';
         Buttons.forEach((button) => {
             const buttonHTML = document.createElement('a');
+            buttonHTML.className = 'header__nav-link';
             buttonHTML.href = `#${button.id}`;
-            buttonHTML.innerText = button.text;
+            buttonHTML.innerHTML = `<div class = "header__ico ${
+                button.text.split(' ')[0].toLowerCase() + '-link'
+            }"></div>\
+            <div class = "header__text ${button.text.split(' ')[0].toLowerCase() + '-nav-text'}">Online Store</div>`;
             pageButtons.append(buttonHTML);
         });
+        const catrText = pageButtons.querySelector('.cart-nav-text');
+        catrText?.remove();
         this.container.append(pageButtons);
     }
 

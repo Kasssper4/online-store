@@ -34,7 +34,6 @@ export class ProductsList {
                             valuesStr += productItem[variable as keyof typeof productItem] + ' ';
                         }
                     }
-                    console.log(valuesStr);
                     paramsArr.forEach((param) => {
                         if (
                             (param[0] === 'brand' || param[0] === 'category') &&

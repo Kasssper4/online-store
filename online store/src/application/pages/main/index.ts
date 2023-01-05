@@ -17,7 +17,7 @@ class MainPage extends Page {
     }
 
     render() {
-        const title = this.createHeader(`Online store. ${MainPage.TextObj.MainTitle}.`);
+        const title = this.createHeader('Catalog');
         this.container.append(title);
         const main = document.createElement('main');
         main.className = 'main-page-main';

@@ -1,0 +1,30 @@
+.items-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 30px;
+    justify-content: center;
+    background: $color-background;
+    align-items: stretch;
+}
+
+.item-wrap {
+    box-shadow: 0 0 5px 5px $color-scroll;
+    margin-top: 5px;
+    width: 23%;
+    height: 250px;
+    color: $color-ordinary-text;
+    text-decoration: none;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.product-image-wrap {
+    width: 100%;
+}
+
+.product-image-wrap img {
+    display: block;
+    width: 100%;
+    height: auto;
+}

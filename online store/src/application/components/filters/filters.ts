@@ -65,7 +65,7 @@ export class FiltersList {
         const checkboxBlock = document.createElement('div');
         checkboxBlock.className = 'checkbox';
         const header = document.createElement('h3');
-        header.innerText = criterion;
+        header.innerText = criterion.toUpperCase();
         const formElement = document.createElement('form');
         formElement.className = `filter-form ${criterion}`;
         checkboxBlock.append(header, formElement);
@@ -85,7 +85,8 @@ export class FiltersList {
                 }
             }
 
-            inputWrap.innerHTML = `<input type = "checkbox" value = "${el}" class = "filter-checkbox__input"> ${el}`;
+            inputWrap.innerHTML = `<input type = "checkbox" value = "${el}" id = "${el}" class = "filter-checkbox__input">\
+                                    <label for = "${el}" class = "checkbox-label"> ${el}</label>`;
 
             if (inputWrap.firstChild) {
                 inputWrap.firstChild.addEventListener('change', () => {
@@ -121,7 +122,7 @@ export class FiltersList {
         const rangeBlock = document.createElement('div');
         rangeBlock.className = 'slider';
         const header = document.createElement('h3');
-        header.innerText = criterion;
+        header.innerText = criterion.toUpperCase();
         const rangeWrap = document.createElement('div');
         rangeWrap.className = `filter-slider ${criterion}`;
         rangeBlock.append(header, rangeWrap);
