@@ -14,7 +14,7 @@ export class ProductsList {
     private prodList = document.createElement('div');
 
     async loadAllProducts() {
-        const response = await fetch('https://dummyjson.com/products');
+        const response = await fetch('https://dummyjson.com/products?limit=50');
         const parseResponse: Promise<IProductInfo> = await response.json();
         return parseResponse;
     }
@@ -28,6 +28,13 @@ export class ProductsList {
             if (window.location.search !== '') {
                 myList = productsList.products.filter((productItem) => {
                     let match = 0;
+                    let valuesStr = '';
+                    for (const variable in productItem) {
+                        if (variable !== 'id' && variable !== 'thumbnail' && variable !== 'images') {
+                            valuesStr += productItem[variable as keyof typeof productItem] + ' ';
+                        }
+                    }
+                    console.log(valuesStr);
                     paramsArr.forEach((param) => {
                         if (
                             (param[0] === 'brand' || param[0] === 'category') &&
@@ -39,6 +46,8 @@ export class ProductsList {
                             Number(productItem[param[0] as keyof typeof productItem]) >= Number(param[1][0]) &&
                             Number(productItem[param[0] as keyof typeof productItem]) <= Number(param[1][1])
                         ) {
+                            match += 1;
+                        } else if (param[0] === 'search' && valuesStr.match(String(param[1][0]))) {
                             match += 1;
                         }
                     });
@@ -52,7 +61,6 @@ export class ProductsList {
             if (sortParam) {
                 const sortCriterion = sortParam.split('-')[0];
                 const sortOrder = sortParam.split('-')[1];
-                console.log(myList, sortParam, sortCriterion, sortOrder);
                 if (sortOrder === 'asc') {
                     myList.sort((a, b) => {
                         return a[sortCriterion as keyof ISort] - b[sortCriterion as keyof ISort];

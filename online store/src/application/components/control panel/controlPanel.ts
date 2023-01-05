@@ -1,11 +1,27 @@
 import { QueryParams } from '../queryParams';
 export class ControlPanel {
     controlBlock = document.createElement('div');
+    query = new QueryParams();
 
     createSearch() {
         const inputText = document.createElement('input');
         inputText.className = 'search';
         inputText.setAttribute('type', 'text');
+        inputText.setAttribute('autofocus', 'true');
+        inputText.setAttribute('placeholder', 'Search product');
+        const querySarchArr = this.query.getQueryParam('search');
+        if (querySarchArr.length > 0) {
+            inputText.value = querySarchArr[0];
+        }
+        inputText.addEventListener('input', () => {
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            if (querySarchArr.length > 0) {
+                params.delete('search');
+            }
+            params.append('search', inputText.value);
+            window.location.search = params.toString();
+        });
         return inputText;
     }
 
@@ -20,8 +36,7 @@ export class ControlPanel {
             <option value = "rating-asc">Rating ASC</option>\
             <option value = "rating-desc">Rating DESC</option>';
 
-        const query = new QueryParams();
-        const querySortArr = query.getQueryParam('sort');
+        const querySortArr = this.query.getQueryParam('sort');
         if (querySortArr.length === 0) {
             select.firstElementChild?.setAttribute('selected', 'true');
         }

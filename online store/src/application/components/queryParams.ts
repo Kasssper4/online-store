@@ -32,6 +32,7 @@ export class QueryParams {
             brand: params.getAll('brand'),
             price: getRangeArr('price'),
             stock: getRangeArr('stock'),
+            search: params.getAll('search'),
         };
 
         return Object.entries(paramsObj).filter((el) => el[1].length > 0);
