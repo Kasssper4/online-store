@@ -5,15 +5,10 @@
 @import 'style/components/header';
 @import 'style/components/filtersCheckbox';
 @import 'style/components/productList';
+@import 'style/components/controlPanel';
 
 .main-page-main {
     display: flex;
-}
-
-.prod-item-description {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
 }
 
 .filter-slider {
@@ -64,18 +59,4 @@ input[type=range]::-webkit-slider-thumb:active {
 #fromSlider {
     height: 0;
     z-index: 1;
-}
-
-.control {
-    height: 80px;
-    border: 1px solid black;
-}
-
-.view-button {
-    width: 30px;
-    height: 30px;
-}
-
-.control {
-    display: flex;
 }

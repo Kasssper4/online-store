@@ -81,7 +81,7 @@ export class ProductsList {
                 prodItemWrap.href = href;
                 const prodDescription = document.createElement('div');
                 prodDescription.classList.add('prod-item-description');
-                prodItemWrap.append(productItem.title);
+                prodDescription.insertAdjacentHTML('beforeend', `<h3>${productItem.title}</h3>`);
                 prodDescription.insertAdjacentHTML('beforeend', `<div>Category: ${productItem.category}</div>`);
                 prodDescription.insertAdjacentHTML('beforeend', `<div>Brand: ${productItem.brand}</div>`);
                 prodDescription.insertAdjacentHTML('beforeend', `<div>Price: $${String(productItem.price)}</div>`);
@@ -94,7 +94,7 @@ export class ProductsList {
 
                 const productImage = document.createElement('img');
                 prodImageWrap.append(productImage);
-                prodItemWrap.append(prodDescription, prodImageWrap);
+                prodItemWrap.append(prodImageWrap, prodDescription);
                 productImage.src = productItem.images[0];
 
                 this.prodList.append(prodItemWrap);

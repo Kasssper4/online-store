@@ -68,6 +68,9 @@ export class ControlPanel {
             return btn;
         }
         buttonsWrap.append(addButton(), addButton());
+        (buttonsWrap.firstChild as HTMLElement).classList.add('tile-view');
+        (buttonsWrap.firstChild as HTMLElement).classList.add('active-view');
+        (buttonsWrap.lastChild as HTMLElement).classList.add('list-view');
         return buttonsWrap;
     }
 
