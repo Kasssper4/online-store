@@ -5,9 +5,11 @@ import { QueryParams } from '../queryParams';
 
 export class ProductsList {
     private controlPanel: ControlPanel;
+    private params: QueryParams;
 
     constructor() {
         this.controlPanel = new ControlPanel();
+        this.params = new QueryParams();
     }
 
     private prodSection = document.createElement('section');
@@ -20,11 +22,11 @@ export class ProductsList {
     }
 
     createProdListBlock() {
-        const params = new QueryParams();
-        const paramsArr = params.getAllFilterParams();
+        const paramsArr = this.params.getAllFilterParams();
 
         this.loadAllProducts().then((productsList) => {
             let myList = productsList.products;
+            const viewParam = this.params.getViewParam();
             if (window.location.search !== '') {
                 myList = productsList.products.filter((productItem) => {
                     let match = 0;
@@ -56,7 +58,7 @@ export class ProductsList {
                 });
             }
 
-            const sortParam = params.getSortParam();
+            const sortParam = this.params.getSortParam();
             if (sortParam) {
                 const sortCriterion = sortParam.split('-')[0];
                 const sortOrder = sortParam.split('-')[1];
@@ -76,7 +78,12 @@ export class ProductsList {
                 const prodImageWrap = document.createElement('div');
                 prodImageWrap.classList.add('product-image-wrap');
 
-                prodItemWrap.className = 'item-wrap';
+                if (viewParam === 'tile-view' || !viewParam) {
+                    prodItemWrap.className = 'item-wrap';
+                } else {
+                    prodItemWrap.className = 'item-wrap-list';
+                }
+
                 const href = `#${PageIds.ProductPage}/${i + 1}`;
                 prodItemWrap.href = href;
                 const prodDescription = document.createElement('div');
@@ -105,7 +112,12 @@ export class ProductsList {
 
     render() {
         this.prodSection.className = 'products';
-        this.prodList.className = 'items-wrap';
+        const viewParam = this.params.getViewParam();
+        if (viewParam === 'tile-view' || !viewParam) {
+            this.prodList.className = 'items-wrap';
+        } else {
+            this.prodList.className = 'items-wrap-list';
+        }
         this.prodSection.append(this.controlPanel.render(), this.createProdListBlock());
         return this.prodSection;
     }
