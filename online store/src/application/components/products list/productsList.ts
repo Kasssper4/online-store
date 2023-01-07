@@ -73,19 +73,37 @@ export class ProductsList {
                 }
             }
 
+            const counterProduct = document.querySelector('.products-amount__num');
+            if (counterProduct) {
+                counterProduct.innerHTML = `${myList.length}`;
+            }
+
+            if (myList.length === 0) {
+                this.prodList.innerHTML = '<h2 class = "no-products">No products found</h2>';
+            }
+
             myList.forEach((productItem, i) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.id = `${productItem.id}`;
+
                 const prodItemWrap = document.createElement('a');
                 const prodImageWrap = document.createElement('div');
                 prodImageWrap.classList.add('product-image-wrap');
 
                 if (viewParam === 'tile-view' || !viewParam) {
+                    card.className = 'card';
                     prodItemWrap.className = 'item-wrap';
                 } else {
+                    card.className = 'card-list';
                     prodItemWrap.className = 'item-wrap-list';
                 }
 
                 const href = `#${PageIds.ProductPage}/${i + 1}`;
                 prodItemWrap.href = href;
+                const addBtn = document.createElement('button');
+                addBtn.className = 'add-button';
+                addBtn.innerText = 'Add to curt';
                 const prodDescription = document.createElement('div');
                 prodDescription.classList.add('prod-item-description');
                 prodDescription.insertAdjacentHTML('beforeend', `<h3>${productItem.title}</h3>`);
@@ -103,8 +121,8 @@ export class ProductsList {
                 prodImageWrap.append(productImage);
                 prodItemWrap.append(prodImageWrap, prodDescription);
                 productImage.src = productItem.images[0];
-
-                this.prodList.append(prodItemWrap);
+                card.append(prodItemWrap, addBtn);
+                this.prodList.append(card);
             });
         });
         return this.prodList;

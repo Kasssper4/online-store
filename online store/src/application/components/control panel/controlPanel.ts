@@ -89,7 +89,7 @@ export class ControlPanel {
     createProductsAmount() {
         const amountBlock = document.createElement('div');
         amountBlock.className = 'products-amount';
-        amountBlock.innerHTML = '<span>Find products: </span><span>0</span>';
+        amountBlock.innerHTML = '<span>Find products: </span><span class = "products-amount__num">0</span>';
         return amountBlock;
     }
 
