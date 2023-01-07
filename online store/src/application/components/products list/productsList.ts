@@ -1,30 +1,30 @@
-import { IProductInfo, ISort } from '../../interfaces/interfaces';
+import { ISort } from '../../interfaces/interfaces';
 import { PageIds } from '../../pages/app/index';
+import { Cart } from '../cart/cart';
 import { ControlPanel } from '../control panel/controlPanel';
 import { QueryParams } from '../queryParams';
+import { Products } from './getProducts';
 
 export class ProductsList {
+    private products: Products;
     private controlPanel: ControlPanel;
     private params: QueryParams;
+    private cart: Cart;
 
     constructor() {
+        this.products = new Products();
         this.controlPanel = new ControlPanel();
         this.params = new QueryParams();
+        this.cart = new Cart();
     }
 
     private prodSection = document.createElement('section');
     private prodList = document.createElement('div');
 
-    async loadAllProducts() {
-        const response = await fetch('https://dummyjson.com/products?limit=50');
-        const parseResponse: Promise<IProductInfo> = await response.json();
-        return parseResponse;
-    }
-
     createProdListBlock() {
         const paramsArr = this.params.getAllFilterParams();
 
-        this.loadAllProducts().then((productsList) => {
+        this.products.loadAllProducts().then((productsList) => {
             let myList = productsList.products;
             const viewParam = this.params.getViewParam();
             if (window.location.search !== '') {
@@ -85,7 +85,6 @@ export class ProductsList {
             myList.forEach((productItem, i) => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.id = `${productItem.id}`;
 
                 const prodItemWrap = document.createElement('a');
                 const prodImageWrap = document.createElement('div');
@@ -101,9 +100,34 @@ export class ProductsList {
 
                 const href = `#${PageIds.ProductPage}/${i + 1}`;
                 prodItemWrap.href = href;
+
                 const addBtn = document.createElement('button');
                 addBtn.className = 'add-button';
-                addBtn.innerText = 'Add to curt';
+
+                const currentProdArr = this.cart.getProductsInCart();
+                const currentIdArr = currentProdArr.map((prod) => prod.id);
+
+                if (currentIdArr.includes(productItem.id)) {
+                    addBtn.innerText = 'Drop from cart';
+                    addBtn.classList.add('adding');
+                } else {
+                    addBtn.innerText = 'Add to cart';
+                }
+
+                addBtn.addEventListener('click', (e) => {
+                    const btnEl = e.target as HTMLElement;
+                    if (btnEl.classList.contains('adding')) {
+                        btnEl.classList.remove('adding');
+                        btnEl.innerText = 'Add to cart';
+                        this.cart.removeProductsFromCart(productItem.id, 'fromMain');
+                    } else {
+                        btnEl.classList.add('adding');
+                        btnEl.innerText = 'Drop from cart';
+                        this.cart.addProductToCart(productItem.id, productItem.price);
+                    }
+                    this.cart.updateCartInfo();
+                });
+
                 const prodDescription = document.createElement('div');
                 prodDescription.classList.add('prod-item-description');
                 prodDescription.insertAdjacentHTML('beforeend', `<h3>${productItem.title}</h3>`);

@@ -65,13 +65,15 @@ class App {
                 App.renderNewPage('main-page', window.location.search);
             } else if (/product-page/.test(window.location.hash)) {
                 App.renderNewPage(window.location.hash.slice(1), '');
+            } else if (window.location.hash === '#cart-page') {
+                App.renderNewPage('cart-page', window.location.search);
             }
         });
     }
 
     run() {
         App.container.append(this.header.render());
-        App.renderNewPage('main-page', window.location.search);
+        // App.renderNewPage('main-page', window.location.search);
         App.renderNewPage(this.localStorageCheck(), window.location.search);
         this.enableRouteChange();
         this.findRouteWhenLoad();

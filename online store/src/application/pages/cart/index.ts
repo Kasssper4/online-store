@@ -1,14 +1,16 @@
+import { CartList } from '../../components/products list/cartList';
 import { Page } from '../../patterns/pagePattern';
 export class CartPage extends Page {
-    static TextObj = {
-        MainTitle: 'Cart Page.',
-    };
+    private cartList: CartList;
+
     constructor(id: string) {
         super(id);
+        this.cartList = new CartList();
     }
+
     render() {
-        const title = this.createHeader(`Online store. ${CartPage.TextObj.MainTitle}`);
-        this.container.append(title);
+        const title = this.createHeader(`Products in cart`);
+        this.container.append(title, this.cartList.render());
         return this.container;
     }
 }

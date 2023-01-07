@@ -1,5 +1,5 @@
 export interface IProductsItem {
-    id: number; //нет в поиске
+    id: number;
     title: string;
     description: string;
     price: number;
@@ -8,8 +8,8 @@ export interface IProductsItem {
     stock: number;
     brand: string;
     category: string;
-    thumbnail: string; //нет в поиске
-    images: string[]; //нет в поиске
+    thumbnail: string;
+    images: string[];
 }
 
 export interface IProductInfo {
@@ -22,4 +22,10 @@ export interface IProductInfo {
 export interface ISort {
     price: number;
     rating: number;
+}
+
+export interface ICart {
+    id: number;
+    price: number;
+    count: number;
 }
