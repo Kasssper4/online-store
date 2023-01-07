@@ -28,7 +28,37 @@ export class CartList {
                 img.src = prod.images[0];
                 imgWrap.append(img);
 
-                card.append(imgWrap);
+                function addBlock(el: string, name: string) {
+                    const block = document.createElement(el);
+                    block.className = `product-in-cart__${name}`;
+                    block.innerText = `${prod[name as keyof typeof prod]}`;
+                    return block;
+                }
+                const mainInfo = document.createElement('div');
+                mainInfo.className = 'product-in-cart__main-info';
+
+                mainInfo.append(
+                    addBlock('h3', 'title'),
+                    addBlock('p', 'brand'),
+                    addBlock('p', 'category'),
+                    addBlock('p', 'description')
+                );
+
+                const additionalInfo = document.createElement('div');
+                additionalInfo.className = 'product-in-cart__add-info';
+                function addBlockadditional(name: string) {
+                    const block = document.createElement('div');
+                    block.className = `product-in-cart__${name}`;
+                    const svg = document.createElement('div');
+                    svg.className = `svg-${name}`;
+                    const text = document.createElement('div');
+                    text.innerText = `${prod[name as keyof typeof prod]}`;
+                    block.append(svg, text);
+                    return block;
+                }
+                additionalInfo.append(addBlockadditional('rating'), addBlockadditional('discountPercentage'));
+
+                card.append(imgWrap, mainInfo, additionalInfo);
                 this.prodList.append(card);
             });
         });
