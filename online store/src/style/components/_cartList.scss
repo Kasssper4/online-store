@@ -38,6 +38,11 @@
 
 .product-in-cart__description {
     text-align: center;
+    overflow: scroll;
+}
+
+.product-in-cart__description::-webkit-scrollbar {
+    display: none;
 }
 
 .product-in-cart__brand, .product-in-cart__category {

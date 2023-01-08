@@ -66,16 +66,11 @@ export class CartList {
 
                 const actionBlock = document.createElement('div');
                 actionBlock.className = 'product-in-cart__action';
-                function addButton(type: string) {
-                    const btn = document.createElement('div');
-                    btn.className = `btn-in-cart__${type}`;
-                    return btn;
-                }
+
                 const totalBlock = document.createElement('div');
                 totalBlock.className = 'product-in-cart__total';
 
                 const currProd = currentProdArr.find((el) => el.id === prod.id);
-                console.log(currProd);
 
                 const prodCount = document.createElement('p');
                 prodCount.className = 'product-in-cart__prod-count';
@@ -85,7 +80,34 @@ export class CartList {
                     prodCount.innerText = `${currProd?.count}`;
                     money.innerText = `${currProd?.count * currProd?.price} $`;
                 }
+
                 totalBlock.append(prodCount, money);
+
+                const addButton = (type: string) => {
+                    const btn = document.createElement('div');
+                    btn.className = `btn-in-cart__${type}`;
+                    btn.addEventListener('click', (e) => {
+                        if (type === 'plus' && currProd && Number(prodCount.innerText) !== prod.stock) {
+                            prodCount.innerText = `${Number(prodCount.innerText) + 1}`;
+                            money.innerText = `${
+                                Number(money.innerText.slice(0, money.innerText.length - 2)) + currProd.price
+                            } $`;
+                            this.cart.addProductToCart(currProd.id, currProd.price);
+                            this.cart.updateCartInfo();
+                        } else if (type === 'minus' && currProd) {
+                            if (prodCount.innerText === '1') {
+                                (e.target as Element).closest('li')?.remove();
+                            }
+                            prodCount.innerText = `${Number(prodCount.innerText) - 1}`;
+                            money.innerText = `${
+                                Number(money.innerText.slice(0, money.innerText.length - 2)) - currProd.price
+                            } $`;
+                            this.cart.removeProductsFromCart(currProd.id, 'fromCart');
+                            this.cart.updateCartInfo();
+                        }
+                    });
+                    return btn;
+                };
 
                 actionBlock.append(addButton('minus'), totalBlock, addButton('plus'));
 
