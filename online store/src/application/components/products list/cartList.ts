@@ -15,8 +15,10 @@ export class CartList {
 
     createList() {
         this.products.loadAllProducts().then((productsList) => {
-            const currentProdIdArr = this.cart.getProductsInCart().map((prod) => prod.id);
+            const currentProdArr = this.cart.getProductsInCart();
+            const currentProdIdArr = currentProdArr.map((prod) => prod.id);
             const cartList = productsList.products.filter((prod) => currentProdIdArr.includes(prod.id));
+
             cartList.forEach((prod) => {
                 const card = document.createElement('li');
                 card.className = 'product-in-cart';
@@ -56,9 +58,38 @@ export class CartList {
                     block.append(svg, text);
                     return block;
                 }
-                additionalInfo.append(addBlockadditional('rating'), addBlockadditional('discountPercentage'));
+                additionalInfo.append(
+                    addBlockadditional('rating'),
+                    addBlockadditional('discountPercentage'),
+                    addBlockadditional('stock')
+                );
 
-                card.append(imgWrap, mainInfo, additionalInfo);
+                const actionBlock = document.createElement('div');
+                actionBlock.className = 'product-in-cart__action';
+                function addButton(type: string) {
+                    const btn = document.createElement('div');
+                    btn.className = `btn-in-cart__${type}`;
+                    return btn;
+                }
+                const totalBlock = document.createElement('div');
+                totalBlock.className = 'product-in-cart__total';
+
+                const currProd = currentProdArr.find((el) => el.id === prod.id);
+                console.log(currProd);
+
+                const prodCount = document.createElement('p');
+                prodCount.className = 'product-in-cart__prod-count';
+                const money = document.createElement('p');
+                money.className = 'product-in-cart__money';
+                if (currProd) {
+                    prodCount.innerText = `${currProd?.count}`;
+                    money.innerText = `${currProd?.count * currProd?.price} $`;
+                }
+                totalBlock.append(prodCount, money);
+
+                actionBlock.append(addButton('minus'), totalBlock, addButton('plus'));
+
+                card.append(imgWrap, mainInfo, additionalInfo, actionBlock);
                 this.prodList.append(card);
             });
         });
