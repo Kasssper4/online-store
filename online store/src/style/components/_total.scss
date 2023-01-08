@@ -1,0 +1,41 @@
+.cart-total-section {
+    width: 25%;
+}
+
+.cart-summary {
+    border-bottom: 1px solid $color-button;
+    height: 310px;
+    margin-top: 14px;
+}
+
+.cart-summary__sum {
+    margin-top: 0;
+}
+
+.cart-summary__promo {
+    display: flex;
+    height: 100px;
+    align-items: flex-start;
+}
+
+.promo-text {
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.promo-code {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.promo-code__text {
+    margin: 0;
+}
+
+.promo-code__remove {
+    background-image: url("assets/remove.svg");
+    width: 30px;
+    height: 30px;
+    background-size: 30px;
+}

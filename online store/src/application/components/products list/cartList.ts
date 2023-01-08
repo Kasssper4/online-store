@@ -84,6 +84,8 @@ export class CartList {
                 totalBlock.append(prodCount, money);
 
                 const addButton = (type: string) => {
+                    const totalCount = document.querySelector('.count-in-summary');
+                    const totalSum = document.querySelector('.total-in-summary');
                     const btn = document.createElement('div');
                     btn.className = `btn-in-cart__${type}`;
                     btn.addEventListener('click', (e) => {
@@ -94,6 +96,17 @@ export class CartList {
                             } $`;
                             this.cart.addProductToCart(currProd.id, currProd.price);
                             this.cart.updateCartInfo();
+                            if (totalCount && totalSum) {
+                                totalCount.innerHTML = `${Number(totalCount.innerHTML) + 1}`;
+                                totalSum.innerHTML = `${Number(totalSum.innerHTML) + currProd.price}`;
+                                const totalWithDiscount = document.querySelector('.discount-in-summary');
+                                if (totalWithDiscount) {
+                                    totalWithDiscount.innerHTML = `${
+                                        Number(totalSum.innerHTML) *
+                                        ((100 - Number(totalWithDiscount.id.slice(2))) / 100)
+                                    }`;
+                                }
+                            }
                         } else if (type === 'minus' && currProd) {
                             if (prodCount.innerText === '1') {
                                 (e.target as Element).closest('li')?.remove();
@@ -104,6 +117,17 @@ export class CartList {
                             } $`;
                             this.cart.removeProductsFromCart(currProd.id, 'fromCart');
                             this.cart.updateCartInfo();
+                            if (totalCount && totalSum) {
+                                totalCount.innerHTML = `${Number(totalCount.innerHTML) - 1}`;
+                                totalSum.innerHTML = `${Number(totalSum.innerHTML) - currProd.price}`;
+                                const totalWithDiscount = document.querySelector('.discount-in-summary');
+                                if (totalWithDiscount) {
+                                    totalWithDiscount.innerHTML = `${
+                                        Number(totalSum.innerHTML) *
+                                        ((100 - Number(totalWithDiscount.id.slice(2))) / 100)
+                                    }`;
+                                }
+                            }
                         }
                     });
                     return btn;
