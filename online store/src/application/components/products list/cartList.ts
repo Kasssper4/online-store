@@ -101,10 +101,11 @@ export class CartList {
                                 totalSum.innerHTML = `${Number(totalSum.innerHTML) + currProd.price}`;
                                 const totalWithDiscount = document.querySelector('.discount-in-summary');
                                 if (totalWithDiscount) {
-                                    totalWithDiscount.innerHTML = `${
+                                    const resSum = Math.floor(
                                         Number(totalSum.innerHTML) *
-                                        ((100 - Number(totalWithDiscount.id.slice(2))) / 100)
-                                    }`;
+                                            ((100 - Number(totalWithDiscount.id.slice(2))) / 100)
+                                    );
+                                    totalWithDiscount.innerHTML = `${resSum}`;
                                 }
                             }
                         } else if (type === 'minus' && currProd) {
@@ -122,10 +123,11 @@ export class CartList {
                                 totalSum.innerHTML = `${Number(totalSum.innerHTML) - currProd.price}`;
                                 const totalWithDiscount = document.querySelector('.discount-in-summary');
                                 if (totalWithDiscount) {
-                                    totalWithDiscount.innerHTML = `${
+                                    const resSum = Math.floor(
                                         Number(totalSum.innerHTML) *
-                                        ((100 - Number(totalWithDiscount.id.slice(2))) / 100)
-                                    }`;
+                                            ((100 - Number(totalWithDiscount.id.slice(2))) / 100)
+                                    );
+                                    totalWithDiscount.innerHTML = `${resSum}`;
                                 }
                             }
                         }

@@ -62,9 +62,10 @@ export class Total {
                 discount += promoEl.discount;
                 totalSumBlock.style.textDecoration = 'line-through';
 
-                newTotal.innerHTML = `Total: <span class = "discount-in-summary" id = "d:${discount}">${
-                    totalSum * ((100 - discount) / 100)
-                }</span>$`;
+                const resSum = Math.floor(
+                    Number(document.querySelector('.money')?.innerHTML) * ((100 - discount) / 100)
+                );
+                newTotal.innerHTML = `Total: <span class = "discount-in-summary" id = "d:${discount}">${resSum}</span>$`;
 
                 newPromo.append(removeBtn);
                 promo.after(newPromo);
@@ -74,9 +75,10 @@ export class Total {
                         newTotal.innerText = '';
                         totalSumBlock.style.textDecoration = 'none';
                     } else {
-                        newTotal.innerHTML = `Total: <span class = "discount-in-summary" id = "d:${discount}">${
-                            totalSum * ((100 - discount) / 100)
-                        }</span>$`;
+                        const finalSum = Math.floor(
+                            Number(document.querySelector('.money')?.innerHTML) * ((100 - discount) / 100)
+                        );
+                        newTotal.innerHTML = `Total: <span class = "discount-in-summary" id = "d:${discount}">${finalSum}</span>$`;
                     }
                     newPromo.remove();
                 });
