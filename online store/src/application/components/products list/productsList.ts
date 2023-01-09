@@ -101,33 +101,6 @@ export class ProductsList {
                 const href = `#${PageIds.ProductPage}/${i + 1}`;
                 prodItemWrap.href = href;
 
-                const addBtn = document.createElement('button');
-                addBtn.className = 'add-button';
-
-                const currentProdArr = this.cart.getProductsInCart();
-                const currentIdArr = currentProdArr.map((prod) => prod.id);
-
-                if (currentIdArr.includes(productItem.id)) {
-                    addBtn.innerText = 'Drop from cart';
-                    addBtn.classList.add('adding');
-                } else {
-                    addBtn.innerText = 'Add to cart';
-                }
-
-                addBtn.addEventListener('click', (e) => {
-                    const btnEl = e.target as HTMLElement;
-                    if (btnEl.classList.contains('adding')) {
-                        btnEl.classList.remove('adding');
-                        btnEl.innerText = 'Add to cart';
-                        this.cart.removeProductsFromCart(productItem.id, 'fromMain');
-                    } else {
-                        btnEl.classList.add('adding');
-                        btnEl.innerText = 'Drop from cart';
-                        this.cart.addProductToCart(productItem.id, productItem.price);
-                    }
-                    this.cart.updateCartInfo();
-                });
-
                 const prodDescription = document.createElement('div');
                 prodDescription.classList.add('prod-item-description');
                 prodDescription.insertAdjacentHTML('beforeend', `<h3>${productItem.title}</h3>`);
@@ -145,11 +118,41 @@ export class ProductsList {
                 prodImageWrap.append(productImage);
                 prodItemWrap.append(prodImageWrap, prodDescription);
                 productImage.src = productItem.images[0];
-                card.append(prodItemWrap, addBtn);
+                card.append(prodItemWrap, this.addCartButton(productItem.id, productItem.price, 'fromMain-btn'));
                 this.prodList.append(card);
             });
         });
         return this.prodList;
+    }
+
+    addCartButton(id: number, price: number, className: string) {
+        const addBtn = document.createElement('button');
+        addBtn.className = `add-button ${className}`;
+
+        const currentProdArr = this.cart.getProductsInCart();
+        const currentIdArr = currentProdArr.map((prod) => prod.id);
+
+        if (currentIdArr.includes(id)) {
+            addBtn.innerText = 'Drop from cart';
+            addBtn.classList.add('adding');
+        } else {
+            addBtn.innerText = 'Add to cart';
+        }
+
+        addBtn.addEventListener('click', (e) => {
+            const btnEl = e.target as HTMLElement;
+            if (btnEl.classList.contains('adding')) {
+                btnEl.classList.remove('adding');
+                btnEl.innerText = 'Add to cart';
+                this.cart.removeProductsFromCart(id, 'fromMain');
+            } else {
+                btnEl.classList.add('adding');
+                btnEl.innerText = 'Drop from cart';
+                this.cart.addProductToCart(id, price);
+            }
+            this.cart.updateCartInfo();
+        });
+        return addBtn;
     }
 
     render() {

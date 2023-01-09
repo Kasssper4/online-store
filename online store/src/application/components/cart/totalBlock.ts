@@ -1,13 +1,16 @@
+import { QueryParams } from '../queryParams';
 import { Cart } from './cart';
 import { ModalWindow } from './modalWindow';
 
 export class Total {
     private cart: Cart;
     private modal: ModalWindow;
+    private query: QueryParams;
 
     constructor() {
         this.cart = new Cart();
         this.modal = new ModalWindow();
+        this.query = new QueryParams();
     }
 
     private totalSection = document.createElement('section');
@@ -99,6 +102,10 @@ export class Total {
         buyBtn.addEventListener('click', () => {
             this.modal.openModal();
         });
+
+        if (this.query.getModalParam() === 'yes') {
+            this.modal.openModal();
+        }
 
         return this.totalSection;
     }

@@ -159,13 +159,16 @@
     margin-top: 100px;
 }
 
-.add-button {
+.add-button, .modal-btn-prodpage {
     font-family: "Lato", sans-serif;
     font-size: 16px;
     background-color: $color-background;
     border: 1px solid $color-button;
     width: 130px;
     height: 40px;
+}
+
+.fromMain-btn {
     position: absolute;
 }
 
@@ -180,7 +183,7 @@
     right: 20px;
 }
 
-.add-button:hover {
+.add-button:hover, .modal-btn-prodpage:hover {
     box-shadow: 0 0 1px 1px #fb9b00;
 }
 

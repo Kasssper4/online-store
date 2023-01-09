@@ -22,18 +22,18 @@
     margin-top: 30px;
 }
 
-.filter-form::-webkit-scrollbar {
+.filter-form::-webkit-scrollbar, .product-page-info__photos::-webkit-scrollbar {
     width: 7px;
     background-color: $color-scroll;
     border-radius: 10px;
 }
 
-.filter-form::-webkit-scrollbar-thumb {
+.filter-form::-webkit-scrollbar-thumb, .product-page-info__photos::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: $color-button;
 }
 
-.filter-form::-webkit-scrollbar-button {
+.filter-form::-webkit-scrollbar-button, .product-page-info__photos::-webkit-scrollbar-button {
     display: none;
 }
 

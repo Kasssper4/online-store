@@ -1,8 +1,10 @@
+import { QueryParams } from '../queryParams';
 import { Cart } from './cart';
 
 export class ModalWindow {
     private modal = document.createElement('div');
     private cart = new Cart();
+    private query = new QueryParams();
 
     createModal() {
         const formWrap = document.createElement('div');
@@ -136,6 +138,12 @@ export class ModalWindow {
     closeModal() {
         this.modal.addEventListener('click', (e) => {
             if (e.target === e.currentTarget) {
+                if (this.query.getModalParam()) {
+                    const url = new URL(window.location.href);
+                    const params = new URLSearchParams(url.search);
+                    params.delete('modal');
+                    window.location.search = params.toString();
+                }
                 this.modal.className = 'modal none';
             }
         });
