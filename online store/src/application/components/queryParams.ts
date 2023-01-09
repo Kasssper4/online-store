@@ -43,4 +43,16 @@ export class QueryParams {
         const params = new URLSearchParams(url.search);
         return params.get('sort');
     }
+
+    getViewParam() {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        return params.get('view');
+    }
+
+    getModalParam() {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        return params.get('modal');
+    }
 }

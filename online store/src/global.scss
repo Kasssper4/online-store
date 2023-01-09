@@ -3,9 +3,14 @@
 @import 'style/base/normalize';
 @import 'style/base/base';
 @import 'style/components/header';
+@import 'style/components/footer';
 @import 'style/components/filtersCheckbox';
 @import 'style/components/productList';
 @import 'style/components/controlPanel';
+@import 'style/components/cartList';
+@import 'style/components/total';
+@import 'style/components/modal';
+@import 'style/components/productPage';
 
 .main-page-main {
     display: flex;

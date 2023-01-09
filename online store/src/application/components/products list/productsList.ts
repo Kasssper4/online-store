@@ -1,30 +1,32 @@
-import { IProductInfo, ISort } from '../../interfaces/interfaces';
+import { ISort } from '../../interfaces/interfaces';
 import { PageIds } from '../../pages/app/index';
+import { Cart } from '../cart/cart';
 import { ControlPanel } from '../control panel/controlPanel';
 import { QueryParams } from '../queryParams';
+import { Products } from './getProducts';
 
 export class ProductsList {
+    private products: Products;
     private controlPanel: ControlPanel;
+    private params: QueryParams;
+    private cart: Cart;
 
     constructor() {
+        this.products = new Products();
         this.controlPanel = new ControlPanel();
+        this.params = new QueryParams();
+        this.cart = new Cart();
     }
 
     private prodSection = document.createElement('section');
     private prodList = document.createElement('div');
 
-    async loadAllProducts() {
-        const response = await fetch('https://dummyjson.com/products?limit=50');
-        const parseResponse: Promise<IProductInfo> = await response.json();
-        return parseResponse;
-    }
-
     createProdListBlock() {
-        const params = new QueryParams();
-        const paramsArr = params.getAllFilterParams();
+        const paramsArr = this.params.getAllFilterParams();
 
-        this.loadAllProducts().then((productsList) => {
+        this.products.loadAllProducts().then((productsList) => {
             let myList = productsList.products;
+            const viewParam = this.params.getViewParam();
             if (window.location.search !== '') {
                 myList = productsList.products.filter((productItem) => {
                     let match = 0;
@@ -56,7 +58,7 @@ export class ProductsList {
                 });
             }
 
-            const sortParam = params.getSortParam();
+            const sortParam = this.params.getSortParam();
             if (sortParam) {
                 const sortCriterion = sortParam.split('-')[0];
                 const sortOrder = sortParam.split('-')[1];
@@ -71,14 +73,34 @@ export class ProductsList {
                 }
             }
 
+            const counterProduct = document.querySelector('.products-amount__num');
+            if (counterProduct) {
+                counterProduct.innerHTML = `${myList.length}`;
+            }
+
+            if (myList.length === 0) {
+                this.prodList.innerHTML = '<h2 class = "no-products">No products found</h2>';
+            }
+
             myList.forEach((productItem, i) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
                 const prodItemWrap = document.createElement('a');
                 const prodImageWrap = document.createElement('div');
                 prodImageWrap.classList.add('product-image-wrap');
 
-                prodItemWrap.className = 'item-wrap';
+                if (viewParam === 'tile-view' || !viewParam) {
+                    card.className = 'card';
+                    prodItemWrap.className = 'item-wrap';
+                } else {
+                    card.className = 'card-list';
+                    prodItemWrap.className = 'item-wrap-list';
+                }
+
                 const href = `#${PageIds.ProductPage}/${i + 1}`;
                 prodItemWrap.href = href;
+
                 const prodDescription = document.createElement('div');
                 prodDescription.classList.add('prod-item-description');
                 prodDescription.insertAdjacentHTML('beforeend', `<h3>${productItem.title}</h3>`);
@@ -96,16 +118,51 @@ export class ProductsList {
                 prodImageWrap.append(productImage);
                 prodItemWrap.append(prodImageWrap, prodDescription);
                 productImage.src = productItem.images[0];
-
-                this.prodList.append(prodItemWrap);
+                card.append(prodItemWrap, this.addCartButton(productItem.id, productItem.price, 'fromMain-btn'));
+                this.prodList.append(card);
             });
         });
         return this.prodList;
     }
 
+    addCartButton(id: number, price: number, className: string) {
+        const addBtn = document.createElement('button');
+        addBtn.className = `add-button ${className}`;
+
+        const currentProdArr = this.cart.getProductsInCart();
+        const currentIdArr = currentProdArr.map((prod) => prod.id);
+
+        if (currentIdArr.includes(id)) {
+            addBtn.innerText = 'Drop from cart';
+            addBtn.classList.add('adding');
+        } else {
+            addBtn.innerText = 'Add to cart';
+        }
+
+        addBtn.addEventListener('click', (e) => {
+            const btnEl = e.target as HTMLElement;
+            if (btnEl.classList.contains('adding')) {
+                btnEl.classList.remove('adding');
+                btnEl.innerText = 'Add to cart';
+                this.cart.removeProductsFromCart(id, 'fromMain');
+            } else {
+                btnEl.classList.add('adding');
+                btnEl.innerText = 'Drop from cart';
+                this.cart.addProductToCart(id, price);
+            }
+            this.cart.updateCartInfo();
+        });
+        return addBtn;
+    }
+
     render() {
         this.prodSection.className = 'products';
-        this.prodList.className = 'items-wrap';
+        const viewParam = this.params.getViewParam();
+        if (viewParam === 'tile-view' || !viewParam) {
+            this.prodList.className = 'items-wrap';
+        } else {
+            this.prodList.className = 'items-wrap-list';
+        }
         this.prodSection.append(this.controlPanel.render(), this.createProdListBlock());
         return this.prodSection;
     }

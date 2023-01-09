@@ -1,0 +1,45 @@
+.footer {
+    height: 80px;
+    width: 100%;
+    background-color: $color-filler;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: -100px;
+}
+
+.git-logo {
+    background-image: url('assets/git-logo.png');
+    width: 40px;
+    height: 40px;
+    background-size: 40px;
+    background-color: $color-background;
+}
+
+.footer__link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color:white;
+}
+
+.rs-logo {
+    background-image: url('assets/rs-school-logo.svg');
+    width: 90px;
+    height: 50px;
+    background-size: 90px 50px;
+    background-color: $color-background;
+}
+
+.footer__wrapper {
+    margin: 0 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

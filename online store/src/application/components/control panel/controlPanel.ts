@@ -62,22 +62,34 @@ export class ControlPanel {
     createViewButtons() {
         const buttonsWrap = document.createElement('div');
         buttonsWrap.className = 'view';
-        function addButton() {
+        const btnArr = ['tile-view', 'list-view'];
+        btnArr.forEach((buttonClass) => {
             const btn = document.createElement('button');
-            btn.className = 'view-button';
-            return btn;
-        }
-        buttonsWrap.append(addButton(), addButton());
-        (buttonsWrap.firstChild as HTMLElement).classList.add('tile-view');
-        (buttonsWrap.firstChild as HTMLElement).classList.add('active-view');
-        (buttonsWrap.lastChild as HTMLElement).classList.add('list-view');
+            btn.className = `view-button ${buttonClass}`;
+            const viewParam = this.query.getViewParam();
+            if (viewParam === buttonClass) {
+                btn.classList.add('active-view');
+            } else if (!viewParam && buttonClass === 'tile-view') {
+                btn.classList.add('active-view');
+            }
+            btn.addEventListener('click', () => {
+                const url = new URL(window.location.href);
+                const params = new URLSearchParams(url.search);
+                if (viewParam) {
+                    params.delete('view');
+                }
+                params.append('view', buttonClass);
+                window.location.search = params.toString();
+            });
+            buttonsWrap.append(btn);
+        });
         return buttonsWrap;
     }
 
     createProductsAmount() {
         const amountBlock = document.createElement('div');
         amountBlock.className = 'products-amount';
-        amountBlock.innerHTML = '<span>Find products: </span><span>0</span>';
+        amountBlock.innerHTML = '<span>Find products: </span><span class = "products-amount__num">0</span>';
         return amountBlock;
     }
 

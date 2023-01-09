@@ -5,7 +5,7 @@
     align-items: center;
 }
 
-.search {
+.search, .promo-input {
     border-radius: 10px;
     border: 0.5px solid $color-button;
     width: 60%;
@@ -13,7 +13,7 @@
     height: 30px;
 }
 
-.search:focus {
+.search:focus, .promo-input:focus {
     outline:none;
     border: 0.5px solid $color-button;
     box-shadow: 0 0 1px 1px #fb9b00;
@@ -21,6 +21,7 @@
 
 .sort {
     border: none;
+    font-family: "Lato", sans-serif;
 }
 
 .view {
