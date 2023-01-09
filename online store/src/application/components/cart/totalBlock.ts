@@ -1,13 +1,13 @@
-import { Products } from '../products list/getProducts';
 import { Cart } from './cart';
+import { ModalWindow } from './modalWindow';
 
 export class Total {
     private cart: Cart;
-    private products: Products;
+    private modal: ModalWindow;
 
     constructor() {
         this.cart = new Cart();
-        this.products = new Products();
+        this.modal = new ModalWindow();
     }
 
     private totalSection = document.createElement('section');
@@ -90,8 +90,16 @@ export class Total {
         });
         promo.append(promoText, input);
         summary.append(productCount, promo, totalSumBlock);
+        const buyBtn = document.createElement('button');
+        buyBtn.className = 'cart-buy';
+        buyBtn.innerText = 'Buy now';
 
-        this.totalSection.append(summary);
+        this.totalSection.append(summary, buyBtn, this.modal.render());
+
+        buyBtn.addEventListener('click', () => {
+            this.modal.openModal();
+        });
+
         return this.totalSection;
     }
 

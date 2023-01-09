@@ -1,32 +1,37 @@
 .cart-total-section {
     width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .cart-summary {
     border-bottom: 1px solid $color-button;
     height: 310px;
     margin-top: 14px;
+    font-size: 14px;
 }
 
 .cart-summary__sum {
-    margin-top: 0;
+    margin-top: 20px;
 }
 
 .cart-summary__promo {
     display: flex;
-    height: 100px;
     align-items: flex-start;
 }
 
 .promo-text {
     margin-left: 0;
     margin-top: 0;
+    font-size: 16px;
 }
 
 .promo-code {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 20px 0;
 }
 
 .promo-code__text {
@@ -38,4 +43,29 @@
     width: 30px;
     height: 30px;
     background-size: 30px;
+}
+
+.cart-summary__count {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.cart-buy {
+    width: 80%;
+    height: 60px;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+    background-color: $color-background;
+    border: 2px solid $color-button;
+    border-radius: 10px;
+}
+
+.cart-buy:hover {
+    box-shadow: 0 0 4px 4px #fb9b00;
+}
+
+.cart-buy:active {
+    box-shadow: 0 0 4px 4px #fb9b00;
+    background-color: #fb9b0047;
 }
