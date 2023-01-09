@@ -82,7 +82,7 @@ export class ProductsList {
                 this.prodList.innerHTML = '<h2 class = "no-products">No products found</h2>';
             }
 
-            myList.forEach((productItem, i) => {
+            myList.forEach((productItem) => {
                 const card = document.createElement('div');
                 card.className = 'card';
 
@@ -98,7 +98,7 @@ export class ProductsList {
                     prodItemWrap.className = 'item-wrap-list';
                 }
 
-                const href = `#${PageIds.ProductPage}/${i + 1}`;
+                const href = `#${PageIds.ProductPage}/${productItem.id}`;
                 prodItemWrap.href = href;
 
                 const prodDescription = document.createElement('div');
