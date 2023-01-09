@@ -2,10 +2,12 @@ body {
     margin: 0;
     font-family: 'Lato', sans-serif;
     color: $color-ordinary-text;
+    position: relative;
 }
 
 .current-page {
     margin: 10px 20px;
+    min-height: calc(100vh - 160px);
 }
 
 h1 {

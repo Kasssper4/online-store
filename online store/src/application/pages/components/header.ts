@@ -1,6 +1,6 @@
-import { Cart } from '../../../components/cart/cart';
-import Component from '../../../patterns/component';
-import { PageIds } from '../../app/index';
+import { Cart } from '../../components/cart/cart';
+import Component from '../../patterns/component';
+import { PageIds } from '../app/index';
 
 const buttons = [
     {

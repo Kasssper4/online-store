@@ -1,8 +1,9 @@
 import MainPage from '../main/index';
 import CartPage from '../cart/index';
-import Header from '../components/header/index';
+import Header from '../components/header';
 import { Page } from '../../patterns/pagePattern';
 import ProductPage from '../product page/productPage';
+import Footer from '../components/footer';
 
 export const enum PageIds {
     MainPage = 'main-page',
@@ -11,9 +12,15 @@ export const enum PageIds {
 }
 
 class App {
+    private static header: Header = new Header('header', 'header');
+    private static footer: Footer = new Footer('footer', 'footer');
     private static container: HTMLElement = document.body;
     private static defaultPageId = 'current-page';
-    private header: Header;
+
+    // constructor() {
+    //     this.header = new Header('header', 'header');
+    //     this.footer = new Footer('footer', 'footer');
+    // }
 
     static renderNewPage(idPage: string, query: string) {
         const currentPage = document.querySelector(`#${App.defaultPageId}`);
@@ -55,10 +62,6 @@ class App {
         });
     }
 
-    constructor() {
-        this.header = new Header('header', 'header');
-    }
-
     findRouteWhenLoad() {
         document.addEventListener('DOMContentLoaded', () => {
             if (window.location.hash === '' || window.location.hash === '#main-page') {
@@ -72,11 +75,12 @@ class App {
     }
 
     run() {
-        App.container.append(this.header.render());
+        App.container.append(App.header.render());
         // App.renderNewPage('main-page', window.location.search);
         App.renderNewPage(this.localStorageCheck(), window.location.search);
         this.enableRouteChange();
         this.findRouteWhenLoad();
+        App.container.append(App.footer.render());
     }
 }
 
