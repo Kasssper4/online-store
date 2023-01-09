@@ -31,12 +31,28 @@
     flex-direction: column;
     align-items: center;
     margin: 15px auto;
+    gap: 20px;
+}
+
+.form-modal__personal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.form-modal__payment {
+    width: 60%;
+    height: 150px;
+    border: 1px solid $color-button;
+    border-radius: 10px;
 }
 
 .form-modal__input {
     width: 80%;
     height: 40px;
     border-radius: 10px;
+    padding-left: 10px;
 }
 
 .form-modal__input:invalid {
@@ -46,3 +62,63 @@
 .form-modal__input:valid {
     border: 1px solid green;
 }
+
+.form-modal__submit {
+    width: 40%;
+}
+
+.form-modal__payment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.card-add-wrap {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card-add-wrap .form-modal__input {
+    width: 40%;
+}
+
+.card-num-wrap {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.visa {
+    background-image: url('assets/visa.png');
+    width: 80px;
+    height: 45px;
+    background-size: 80px 45px;
+    background-repeat: no-repeat;
+}
+
+.mastercard {
+    background-image: url('assets/mastercard.png');
+    width: 70px;
+    height: 45px;
+    background-size: 70px 45px;
+    background-repeat: no-repeat;
+}
+
+.card-img {
+    background-image: url('assets/card-example.png');
+    width: 70px;
+    height: 45px;
+    background-size: 70px 45px;
+    background-repeat: no-repeat;
+}
+
+.union {
+    background-image: url('assets/union-pay.png');
+    width: 70px;
+    height: 45px;
+    background-size: 70px 45px;
+    background-repeat: no-repeat;
+}
+

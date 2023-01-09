@@ -41,7 +41,7 @@ export class Total {
         promoText.innerText = 'Promo code:';
         const input = document.createElement('input');
         input.setAttribute('type', 'text');
-        input.setAttribute('placeholder', 'Enter promo code');
+        input.setAttribute('placeholder', 'Test promo: RS, EPM');
         input.className = 'promo-input';
         let discount = 0;
         const newTotal = document.createElement('h2');

@@ -50,7 +50,7 @@
     font-size: 16px;
 }
 
-.cart-buy {
+.cart-buy, .form-modal__submit {
     width: 80%;
     height: 60px;
     text-align: center;
@@ -61,11 +61,11 @@
     border-radius: 10px;
 }
 
-.cart-buy:hover {
+.cart-buy:hover, .form-modal__submit:hover{
     box-shadow: 0 0 4px 4px #fb9b00;
 }
 
-.cart-buy:active {
+.cart-buy:active, .form-modal__submit:active{
     box-shadow: 0 0 4px 4px #fb9b00;
     background-color: #fb9b0047;
 }
