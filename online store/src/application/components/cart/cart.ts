@@ -66,9 +66,6 @@ export class Cart {
         if (cartAmount && cartTotal) {
             cartAmount.innerHTML = `${prodCounter}`;
             cartTotal.innerHTML = `${moneyCounter}`;
-        } else {
-            // cartAmount.innerHTML = '0';
-            // cartTotal.innerHTML = '0';
         }
     }
 

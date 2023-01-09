@@ -122,7 +122,7 @@ export class ModalWindow {
             setTimeout(() => {
                 window.location.hash = 'main-page';
                 this.cart.clearCart();
-                this.cart.updateCartInfo;
+                this.cart.updateCartInfo();
             }, 3000);
         });
         return this.modal;
