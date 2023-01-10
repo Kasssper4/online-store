@@ -36,6 +36,7 @@ export class ProductsList {
                             valuesStr += productItem[variable as keyof typeof productItem] + ' ';
                         }
                     }
+                    valuesStr = valuesStr.toLowerCase();
                     paramsArr.forEach((param) => {
                         if (
                             (param[0] === 'brand' || param[0] === 'category') &&
@@ -48,7 +49,7 @@ export class ProductsList {
                             Number(productItem[param[0] as keyof typeof productItem]) <= Number(param[1][1])
                         ) {
                             match += 1;
-                        } else if (param[0] === 'search' && valuesStr.match(String(param[1][0]))) {
+                        } else if (param[0] === 'search' && valuesStr.match(String(param[1][0]).toLowerCase())) {
                             match += 1;
                         }
                     });
