@@ -127,8 +127,22 @@ export class FiltersList {
         rangeWrap.className = `filter-slider ${criterion}`;
         rangeBlock.append(header, rangeWrap);
 
-        let fromValue = 0;
-        let toValue = 100;
+        let fromValue;
+        let toValue;
+        let min;
+        let max;
+
+        if (criterion === 'price') {
+            min = 10;
+            max = 1749;
+        } else if (criterion === 'stock') {
+            min = 2;
+            max = 150;
+        }
+
+        fromValue = min;
+        toValue = max;
+
         if (queryParamsArrFrom.length > 0) {
             fromValue = Number(queryParamsArrFrom[0]);
         }
@@ -136,13 +150,13 @@ export class FiltersList {
             toValue = Number(queryParamsArrTo[0]);
         }
 
-        rangeWrap.innerHTML = `<input id="fromSlider" type="range" value="${fromValue}" min="0" max="100"/>\
-            <input id="toSlider" type="range" value="${toValue}" min="0" max="100"/>`;
+        rangeWrap.innerHTML = `<input id="fromSlider" type="range" value="${fromValue}" min="${min}" max="${max}"/>\
+            <input id="toSlider" type="range" value="${toValue}" min="${min}" max="${max}"/>`;
 
         const fromInput = rangeWrap.firstChild;
         const toInput = rangeWrap.lastChild;
 
-        fromInput?.addEventListener('input', () => {
+        fromInput?.addEventListener('mouseup', () => {
             const url = new URL(window.location.href);
             const params = new URLSearchParams(url.search);
             if (
@@ -163,7 +177,7 @@ export class FiltersList {
             }
             window.location.search = params.toString();
         });
-        toInput?.addEventListener('input', () => {
+        toInput?.addEventListener('mouseup', () => {
             const url = new URL(window.location.href);
             const params = new URLSearchParams(url.search);
             if (

@@ -1,13 +1,8 @@
 export class QueryParams {
     getQueryParam(criterion: string) {
-        const queryParams = window.location.search
-            .slice(1)
-            .split('&')
-            .filter((el) => {
-                if (el.split('=')[0] === criterion) return el;
-            })
-            .map((el) => el.split('=')[1]);
-        return queryParams;
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        return params.getAll(criterion);
     }
 
     getAllFilterParams() {
@@ -19,8 +14,10 @@ export class QueryParams {
 
             if (params.get(`${criterion}From`) && params.get(`${criterion}To`)) {
                 resArr = [params.get(`${criterion}From`), params.get(`${criterion}To`)];
-            } else if (params.get(`${criterion}From`)) {
-                resArr = [params.get(`${criterion}From`), '100'];
+            } else if (params.get(`${criterion}From`) && criterion === 'price') {
+                resArr = [params.get(`${criterion}From`), '1749'];
+            } else if (params.get(`${criterion}From`) && criterion === 'stock') {
+                resArr = [params.get(`${criterion}From`), '150'];
             } else if (params.get(`${criterion}To`)) {
                 resArr = ['0', params.get(`${criterion}To`)];
             }
