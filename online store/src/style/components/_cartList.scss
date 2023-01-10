@@ -5,6 +5,7 @@
 
 .cart-list-section {
     width: 70%;
+    position: relative;
 }
 
 .product-in-cart {
@@ -118,4 +119,16 @@
     flex-direction: column;
     justify-content: space-between;
     height: 60px;
+}
+
+.no-product {
+    color: $color-button;
+    position: absolute;
+    width: 150px;
+    height: 60px;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }

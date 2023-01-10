@@ -19,6 +19,12 @@ export class CartList {
             const currentProdIdArr = currentProdArr.map((prod) => prod.id);
             const cartList = productsList.products.filter((prod) => currentProdIdArr.includes(prod.id));
 
+            const noProd = document.createElement('h2');
+            noProd.className = 'no-product';
+            noProd.innerText = 'Cart is Empty :(';
+            if (cartList.length === 0) {
+                this.prodList.append(noProd);
+            }
             cartList.forEach((prod) => {
                 const card = document.createElement('li');
                 card.className = 'product-in-cart';
@@ -118,6 +124,9 @@ export class CartList {
                             } $`;
                             this.cart.removeProductsFromCart(currProd.id, 'fromCart');
                             this.cart.updateCartInfo();
+                            if (this.cart.getProductsInCart().length === 0) {
+                                this.prodList.append(noProd);
+                            }
                             if (totalCount && totalSum) {
                                 totalCount.innerHTML = `${Number(totalCount.innerHTML) - 1}`;
                                 totalSum.innerHTML = `${Number(totalSum.innerHTML) - currProd.price}`;
