@@ -6,6 +6,29 @@
     color: $color-filter-text;
 }
 
+.filters__button-wrap {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+} 
+
+.filters__button-wrap button {
+    height: 30px;
+    background-color: $color-background;
+    border: 1px solid $color-button;
+    border-radius: 10px;
+}
+
+.filters__button-wrap button:hover {
+    box-shadow: 0 0 2px 2px #fb9b00;
+}
+
+.filters__button-wrap button:active{
+    box-shadow: 0 0 2px 2px #fb9b00;
+    background-color: #fb9b0047;
+}
+
 .filter-form {
     width: 200px;
     height: 150px;

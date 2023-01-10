@@ -1,4 +1,17 @@
 export class QueryParams {
+    paramArr = [
+        'categories',
+        'brand',
+        'priceFrom',
+        'priceTo',
+        'stockFrom',
+        'stockTo',
+        'search',
+        'sort',
+        'view',
+        'modal',
+    ];
+
     getQueryParam(criterion: string) {
         const url = new URL(window.location.href);
         const params = new URLSearchParams(url.search);

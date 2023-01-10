@@ -202,11 +202,32 @@ export class FiltersList {
         return rangeBlock;
     }
 
+    createBtnBlock() {
+        const btnClear = document.createElement('button');
+        btnClear.innerText = 'Reset Filters';
+        btnClear.addEventListener('click', () => {
+            window.location.search = '';
+        });
+        const btnCopy = document.createElement('button');
+        btnCopy.innerText = 'Copy Link';
+        btnCopy.addEventListener('click', () => {
+            if (btnCopy.innerText === 'Copy Link') {
+                btnCopy.innerText = 'Copied!';
+            }
+            navigator.clipboard.writeText(window.location.href);
+        });
+        const btnWrap = document.createElement('div');
+        btnWrap.className = 'filters__button-wrap';
+        btnWrap.append(btnClear, btnCopy);
+        return btnWrap;
+    }
+
     render() {
         FiltersList.filterSection.className = 'filters';
 
         if (!FiltersList.filterSection.firstChild) {
             FiltersList.filterSection.append(
+                this.createBtnBlock(),
                 this.createCheckbox('categories'),
                 this.createCheckbox('brand'),
                 this.createRange('price'),

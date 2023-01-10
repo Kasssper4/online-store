@@ -4,6 +4,7 @@ import Header from '../components/header';
 import { Page } from '../../patterns/pagePattern';
 import ProductPage from '../product page/productPage';
 import Footer from '../components/footer';
+import ErrorPage from '../error/errorPage';
 
 export const enum PageIds {
     MainPage = 'main-page',
@@ -16,11 +17,6 @@ class App {
     private static footer: Footer = new Footer('footer', 'footer');
     private static container: HTMLElement = document.body;
     private static defaultPageId = 'current-page';
-
-    // constructor() {
-    //     this.header = new Header('header', 'header');
-    //     this.footer = new Footer('footer', 'footer');
-    // }
 
     static renderNewPage(idPage: string, query: string) {
         const currentPage = document.querySelector(`#${App.defaultPageId}`);
@@ -36,7 +32,7 @@ class App {
         } else if (/products/.test(idPage)) {
             page = new ProductPage(PageIds.ProductPage, idPage.split('/')[1]);
         } else {
-            console.log('else url', idPage);
+            page = new ErrorPage('error');
         }
 
         if (page) {
@@ -70,6 +66,8 @@ class App {
                 App.renderNewPage(window.location.hash.slice(1), '');
             } else if (window.location.hash === '#cart-page') {
                 App.renderNewPage('cart-page', window.location.search);
+            } else {
+                console.log(1);
             }
         });
     }

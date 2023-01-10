@@ -8,8 +8,22 @@ body {
 .current-page {
     margin: 10px 20px;
     min-height: calc(100vh - 160px);
+    position: relative;
 }
 
 h1 {
     margin-left: 10px;
+}
+
+.error-title {
+    color: $color-button;
+    position: absolute;
+    margin: auto;
+    width: 400px;
+    height: 70px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    text-align: center;
 }
