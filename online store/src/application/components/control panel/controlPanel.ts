@@ -41,7 +41,7 @@ export class ControlPanel {
             select.firstElementChild?.setAttribute('selected', 'true');
         }
         Array.from(select.children).forEach((option) => {
-            if ((option as HTMLInputElement).value === querySortArr[0]) {
+            if ((<HTMLInputElement>option).value === querySortArr[0]) {
                 option.setAttribute('selected', 'true');
             }
         });

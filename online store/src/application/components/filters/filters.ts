@@ -88,25 +88,26 @@ export class FiltersList {
             inputWrap.innerHTML = `<input type = "checkbox" value = "${el}" id = "${el}" class = "filter-checkbox__input">\
                                     <label for = "${el}" class = "checkbox-label"> ${el}</label>`;
 
-            if (inputWrap.firstChild) {
-                inputWrap.firstChild.addEventListener('change', () => {
+            const checkboxElement = <HTMLInputElement>inputWrap.firstChild;
+            if (checkboxElement) {
+                checkboxElement.addEventListener('change', () => {
                     const url = new URL(window.location.href);
                     const params = new URLSearchParams(url.search);
-                    if ((inputWrap.firstChild as HTMLInputElement).checked) {
-                        params.append(criterion, (inputWrap.firstChild as HTMLInputElement).value);
+                    if (checkboxElement.checked) {
+                        params.append(criterion, checkboxElement.value);
                         window.location.search = params.toString();
                     } else {
                         const newQuery = this.query
                             .slice(1)
                             .split('&')
-                            .filter((el) => el !== `${criterion}=${(inputWrap.firstChild as HTMLInputElement).value}`);
+                            .filter((el) => el !== `${criterion}=${checkboxElement.value}`);
                         window.location.search = '?' + newQuery.join('&');
                     }
                 });
             }
 
             if (checked) {
-                (inputWrap.firstChild as HTMLInputElement).checked = true;
+                checkboxElement.checked = true;
             }
 
             formElement.append(inputWrap);
@@ -153,26 +154,23 @@ export class FiltersList {
         rangeWrap.innerHTML = `<input id="fromSlider" type="range" value="${fromValue}" min="${min}" max="${max}"/>\
             <input id="toSlider" type="range" value="${toValue}" min="${min}" max="${max}"/>`;
 
-        const fromInput = rangeWrap.firstChild;
-        const toInput = rangeWrap.lastChild;
+        const fromInput = <HTMLInputElement>rangeWrap.firstChild;
+        const toInput = <HTMLInputElement>rangeWrap.lastChild;
 
         fromInput?.addEventListener('mouseup', () => {
             const url = new URL(window.location.href);
             const params = new URLSearchParams(url.search);
-            if (
-                queryParamsArrTo.length === 0 ||
-                Number((fromInput as HTMLInputElement).value) < Number(queryParamsArrTo[0])
-            ) {
+            if (queryParamsArrTo.length === 0 || Number(fromInput.value) < Number(queryParamsArrTo[0])) {
                 if (queryParamsArrFrom.length > 0) {
                     params.delete(criterion + 'From');
                 }
-                params.append(criterion + 'From', (fromInput as HTMLInputElement).value);
+                params.append(criterion + 'From', fromInput.value);
             } else {
                 if (queryParamsArrTo.length > 0) {
                     params.delete(criterion + 'From');
                     params.delete(criterion + 'To');
                     params.append(criterion + 'From', queryParamsArrTo[0]);
-                    params.append(criterion + 'To', (fromInput as HTMLInputElement).value);
+                    params.append(criterion + 'To', fromInput.value);
                 }
             }
             window.location.search = params.toString();
@@ -180,20 +178,17 @@ export class FiltersList {
         toInput?.addEventListener('mouseup', () => {
             const url = new URL(window.location.href);
             const params = new URLSearchParams(url.search);
-            if (
-                queryParamsArrFrom.length === 0 ||
-                Number((toInput as HTMLInputElement).value) > Number(queryParamsArrFrom[0])
-            ) {
+            if (queryParamsArrFrom.length === 0 || Number(toInput.value) > Number(queryParamsArrFrom[0])) {
                 if (queryParamsArrTo.length > 0) {
                     params.delete(criterion + 'To');
                 }
-                params.append(criterion + 'To', (toInput as HTMLInputElement).value);
+                params.append(criterion + 'To', toInput.value);
             } else {
                 if (queryParamsArrFrom.length > 0) {
                     params.delete(criterion + 'From');
                     params.delete(criterion + 'To');
                     params.append(criterion + 'To', queryParamsArrFrom[0]);
-                    params.append(criterion + 'From', (toInput as HTMLInputElement).value);
+                    params.append(criterion + 'From', toInput.value);
                 }
             }
             window.location.search = params.toString();

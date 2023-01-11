@@ -54,7 +54,10 @@ class Header extends Component {
         });
 
         amountOfProduct.innerText = `${prodCounter}`;
-        (totalSumBlock.firstChild as HTMLElement).innerText = `${totalSum}`;
+
+        if (totalSumBlock.firstChild) {
+            (<HTMLElement>totalSumBlock.firstChild).innerText = `${totalSum}`;
+        }
 
         cart?.appendChild(amountOfProduct);
         cart?.appendChild(totalSumBlock);

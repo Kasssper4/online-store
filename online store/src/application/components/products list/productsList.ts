@@ -141,7 +141,7 @@ export class ProductsList {
         }
 
         addBtn.addEventListener('click', (e) => {
-            const btnEl = e.target as HTMLElement;
+            const btnEl = <HTMLElement>e.target;
             if (btnEl.classList.contains('adding')) {
                 btnEl.classList.remove('adding');
                 btnEl.innerText = 'Add to cart';

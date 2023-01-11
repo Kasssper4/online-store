@@ -116,7 +116,7 @@ export class CartList {
                             }
                         } else if (type === 'minus' && currProd) {
                             if (prodCount.innerText === '1') {
-                                (e.target as Element).closest('li')?.remove();
+                                (<Element>e.target).closest('li')?.remove();
                             }
                             prodCount.innerText = `${Number(prodCount.innerText) - 1}`;
                             money.innerText = `${
