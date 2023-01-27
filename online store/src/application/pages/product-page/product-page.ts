@@ -1,8 +1,8 @@
 import { Cart } from '../../components/cart/cart';
-import { ModalWindow } from '../../components/cart/modalWindow';
-import { ProductsList } from '../../components/products list/productsList';
+import { ModalWindow } from '../../components/cart/modal-window';
+import { ProductsList } from '../../components/products-list/products-list';
 import { IProductsItem } from '../../interfaces/interfaces';
-import { Page } from '../../patterns/pagePattern';
+import { Page } from '../../patterns/page-pattern';
 import { createDocElement } from '../../utilites/utilites';
 
 class ProductPage extends Page {

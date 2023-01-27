@@ -1,9 +1,9 @@
 import { IProductsItem, ISort } from '../../interfaces/interfaces';
 import { PageIds } from '../../pages/app/index';
 import { Cart } from '../cart/cart';
-import { ControlPanel } from '../control panel/controlPanel';
-import { QueryParams } from '../queryParams';
-import { Products } from './getProducts';
+import { ControlPanel } from '../control-panel/control-panel';
+import { QueryParams } from '../query-params';
+import { Products } from './get-products';
 import { createDocElement } from '../../utilites/utilites';
 
 export class ProductsList {

@@ -1,4 +1,4 @@
-import { Page } from '../../patterns/pagePattern';
+import { Page } from '../../patterns/page-pattern';
 
 class ErrorPage extends Page {
     render() {

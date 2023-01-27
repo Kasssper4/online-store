@@ -1,6 +1,6 @@
-import { QueryParams } from '../queryParams';
+import { QueryParams } from '../query-params';
 import { Cart } from './cart';
-import { ModalWindow } from './modalWindow';
+import { ModalWindow } from './modal-window';
 import { createDocElement } from '../../utilites/utilites';
 
 export class Total {

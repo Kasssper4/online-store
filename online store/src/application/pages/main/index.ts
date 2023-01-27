@@ -1,6 +1,6 @@
 import { FiltersList } from '../../components/filters/filters';
-import { ProductsList } from '../../components/products list/productsList';
-import { Page } from '../../patterns/pagePattern';
+import { ProductsList } from '../../components/products-list/products-list';
+import { Page } from '../../patterns/page-pattern';
 import { createDocElement } from '../../utilites/utilites';
 
 class MainPage extends Page {

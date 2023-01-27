@@ -1,4 +1,4 @@
-import { QueryParams } from '../queryParams';
+import { QueryParams } from '../query-params';
 import { createDocElement } from '../../utilites/utilites';
 
 export class FiltersList {

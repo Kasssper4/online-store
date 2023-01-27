@@ -1,6 +1,6 @@
-import { Total } from '../../components/cart/totalBlock';
-import { CartList } from '../../components/products list/cartList';
-import { Page } from '../../patterns/pagePattern';
+import { Total } from '../../components/cart/total-block';
+import { CartList } from '../../components/products-list/cart-list';
+import { Page } from '../../patterns/page-pattern';
 import { createDocElement } from '../../utilites/utilites';
 export class CartPage extends Page {
     private cartList: CartList;

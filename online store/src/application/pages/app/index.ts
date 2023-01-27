@@ -1,10 +1,10 @@
 import MainPage from '../main/index';
 import CartPage from '../cart/index';
 import Header from '../components/header';
-import { Page } from '../../patterns/pagePattern';
-import ProductPage from '../product page/productPage';
+import { Page } from '../../patterns/page-pattern';
+import ProductPage from '../product-page/product-page';
 import Footer from '../components/footer';
-import ErrorPage from '../error/errorPage';
+import ErrorPage from '../error/error-page';
 
 export const enum PageIds {
     MainPage = 'main-page',

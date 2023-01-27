@@ -1,5 +1,5 @@
 import { Cart } from '../cart/cart';
-import { Products } from './getProducts';
+import { Products } from './get-products';
 import { createDocElement } from '../../utilites/utilites';
 import { ICart, IProductsItem } from '../../interfaces/interfaces';
 
