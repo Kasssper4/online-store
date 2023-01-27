@@ -1,6 +1,7 @@
 import { Cart } from '../../components/cart/cart';
 import Component from '../../patterns/component';
 import { PageIds } from '../app/index';
+import { createDocElement } from '../../utilites/utilites';
 
 const buttons = [
     {
@@ -22,11 +23,9 @@ class Header extends Component {
     }
 
     renderPageButtons() {
-        const pageButtons = document.createElement('nav');
-        pageButtons.className = 'header__nav';
+        const pageButtons = createDocElement('nav', 'header__nav');
         buttons.forEach((button) => {
-            const buttonHTML = document.createElement('a');
-            buttonHTML.className = 'header__nav-link';
+            const buttonHTML = <HTMLAnchorElement>createDocElement('a', 'header__nav-link');
             buttonHTML.href = `#${button.id}`;
             buttonHTML.innerHTML = `<div class = "header__ico ${
                 button.text.split(' ')[0].toLowerCase() + '-link'
@@ -38,10 +37,8 @@ class Header extends Component {
         catrText?.remove();
 
         const cart = pageButtons.lastChild;
-        const amountOfProduct = document.createElement('p');
-        const totalSumBlock = document.createElement('p');
-        amountOfProduct.className = 'cart-amount';
-        totalSumBlock.className = 'total-sum';
+        const amountOfProduct = createDocElement('p', 'cart-amount');
+        const totalSumBlock = createDocElement('p', 'total-sum');
         totalSumBlock.innerHTML = `<span class = "money">0 </span><span>$</span>`;
 
         const prodInCart = this.cart.getProductsInCart();

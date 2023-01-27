@@ -1,14 +1,14 @@
 import { QueryParams } from '../queryParams';
 import { Cart } from './cart';
+import { createDocElement } from '../../utilites/utilites';
 
 export class ModalWindow {
-    private modal = document.createElement('div');
+    private modal = <HTMLDivElement>createDocElement('div', 'modal none');
     private cart = new Cart();
     private query = new QueryParams();
 
     private addInput(type: string, name: string) {
-        const input = document.createElement('input');
-        input.className = `form-modal__input input-${name}`;
+        const input = <HTMLInputElement>createDocElement('input', `form-modal__input input-${name}`);
         input.id = name;
         input.setAttribute('type', type);
         input.setAttribute('required', 'true');
@@ -88,18 +88,12 @@ export class ModalWindow {
     }
 
     createModal() {
-        const formWrap = document.createElement('div');
-        formWrap.className = 'form-wrap';
+        const formWrap = createDocElement('div', 'form-wrap');
 
-        const form = document.createElement('form');
-        form.className = 'form-modal';
-        const personalInfo = document.createElement('div');
-        personalInfo.className = 'form-modal__personal';
-        const paymentInfo = document.createElement('div');
-        paymentInfo.className = 'form-modal__payment';
-        const submitBtn = document.createElement('button');
-        submitBtn.className = 'form-modal__submit';
-        submitBtn.innerText = 'Submit';
+        const form = <HTMLFormElement>createDocElement('form', 'form-modal');
+        const personalInfo = createDocElement('div', 'form-modal__personal');
+        const paymentInfo = createDocElement('div', 'form-modal__payment');
+        const submitBtn = createDocElement('button', 'form-modal__submit', 'Submit');
 
         personalInfo.append(
             this.addInput('text', 'name'),
@@ -107,19 +101,16 @@ export class ModalWindow {
             this.addInput('text', 'address'),
             this.addInput('email', 'email')
         );
-        const cardNum = document.createElement('div');
-        cardNum.className = 'card-num-wrap';
+        const cardNum = createDocElement('div', 'card-num-wrap');
         const inputCardNum = this.addInput('text', 'card-num');
-        const img = document.createElement('div');
-        img.className = 'card-img';
+        const img = <HTMLDivElement>createDocElement('div', 'card-img');
 
         inputCardNum.addEventListener('input', (e) => {
             return this.checkCardNum(e.target, img);
         });
         cardNum.append(img, inputCardNum);
 
-        const cardAdditional = document.createElement('div');
-        cardAdditional.className = 'card-add-wrap';
+        const cardAdditional = createDocElement('div', 'card-add-wrap');
         const validInput = this.addInput('text', 'valid-to');
         validInput.addEventListener('input', (e) => {
             this.checkValidDate(e.target);
@@ -137,7 +128,6 @@ export class ModalWindow {
         form.append(personalInfo, paymentInfo, submitBtn);
         formWrap.append(form);
         this.modal.append(formWrap);
-        this.modal.className = 'modal none';
 
         form.addEventListener('submit', (e) => {
             this.sendForm(e, form);

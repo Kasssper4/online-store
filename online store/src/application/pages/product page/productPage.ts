@@ -3,9 +3,9 @@ import { ModalWindow } from '../../components/cart/modalWindow';
 import { ProductsList } from '../../components/products list/productsList';
 import { IProductsItem } from '../../interfaces/interfaces';
 import { Page } from '../../patterns/pagePattern';
+import { createDocElement } from '../../utilites/utilites';
 
 class ProductPage extends Page {
-    productTitle: HTMLHeadingElement;
     cart: Cart;
     productList: ProductsList;
     private modal: ModalWindow;
@@ -13,7 +13,6 @@ class ProductPage extends Page {
     constructor(id: string, numOfProd: string) {
         super(id);
         ProductPage.TextObj = numOfProd;
-        this.productTitle = document.createElement('h2');
         this.cart = new Cart();
         this.productList = new ProductsList();
         this.modal = new ModalWindow();
@@ -32,14 +31,10 @@ class ProductPage extends Page {
                 `${product.category.toUpperCase()} >> ${product.brand.toUpperCase()} >> ${product.title.toUpperCase()}`
             );
 
-            const blockInfo = document.createElement('div');
-            blockInfo.className = 'product-page-info';
-
-            const photosWrap = document.createElement('div');
-            photosWrap.className = 'product-page-info__photos';
+            const blockInfo = createDocElement('div', 'product-page-info');
+            const photosWrap = createDocElement('div', 'product-page-info__photos');
             const photosArr = product.images;
-            const mainPhoto = document.createElement('img');
-            mainPhoto.className = 'product-page-info__photo';
+            const mainPhoto = <HTMLImageElement>createDocElement('img', 'product-page-info__photo');
             mainPhoto.src = photosArr[0];
 
             const imgArr = photosArr.map((photo) => {
@@ -52,8 +47,7 @@ class ProductPage extends Page {
             const helpArr: string[] = [];
             photosArr.forEach((photo, i) => {
                 if (!helpArr.includes(imgArr[i] as string)) {
-                    const img = document.createElement('img');
-                    img.className = 'product-photo';
+                    const img = <HTMLImageElement>createDocElement('img', 'product-photo');
                     img.src = photo;
                     helpArr.push(imgArr[i] as string);
                     img.addEventListener('click', () => {
@@ -63,11 +57,9 @@ class ProductPage extends Page {
                 }
             });
 
-            const ul = document.createElement('ul');
-            ul.className = 'product-page-info__list';
+            const ul = createDocElement('ul', 'product-page-info__list');
             function addLi(text: string, info: string | number) {
-                const li = document.createElement('li');
-                li.className = 'product-page-info__li';
+                const li = createDocElement('li', 'product-page-info__li');
                 li.innerHTML = `<b>${text}:</b> ${info}`;
                 return li;
             }
@@ -82,11 +74,8 @@ class ProductPage extends Page {
                 addLi('Stock', `${product.stock}`)
             );
 
-            const btnBlock = document.createElement('div');
-            btnBlock.className = 'product-page-info__btns-wrap';
-            const btnModal = document.createElement('button');
-            btnModal.className = 'modal-btn-prodpage';
-            btnModal.innerText = 'Buy now';
+            const btnBlock = createDocElement('div', 'product-page-info__btns-wrap');
+            const btnModal = createDocElement('button', 'modal-btn-prodpage', 'Buy now');
             btnModal.addEventListener('click', () => {
                 const currentProdArr = this.cart.getProductsInCart();
                 const currentIdArr = currentProdArr.map((prod) => prod.id);
@@ -103,8 +92,7 @@ class ProductPage extends Page {
             });
             btnBlock.append(this.productList.addCartButton(product.id, product.price, 'fromProduct-btn'), btnModal);
 
-            const mainPhotoWrap = document.createElement('div');
-            mainPhotoWrap.className = 'product-page-info__photo-wrap';
+            const mainPhotoWrap = createDocElement('div', 'product-page-info__photo-wrap');
             mainPhotoWrap.append(mainPhoto);
             blockInfo.append(photosWrap, mainPhotoWrap, ul, btnBlock);
             this.container.append(header, blockInfo);

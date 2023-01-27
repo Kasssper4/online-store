@@ -1,5 +1,6 @@
 import { Cart } from '../cart/cart';
 import { Products } from './getProducts';
+import { createDocElement } from '../../utilites/utilites';
 
 export class CartList {
     private cart: Cart;
@@ -10,8 +11,8 @@ export class CartList {
         this.products = new Products();
     }
 
-    private listSection = document.createElement('section');
-    private prodList = document.createElement('ul');
+    private listSection = createDocElement('section', 'cart-list-section');
+    private prodList = createDocElement('ul', 'cart-list');
 
     createList() {
         this.products.loadAllProducts().then((productsList) => {
@@ -19,32 +20,26 @@ export class CartList {
             const currentProdIdArr = currentProdArr.map((prod) => prod.id);
             const cartList = productsList.products.filter((prod) => currentProdIdArr.includes(prod.id));
 
-            const noProd = document.createElement('h2');
-            noProd.className = 'no-product';
-            noProd.innerText = 'Cart is Empty :(';
+            const noProd = createDocElement('h2', 'no-product', 'Cart is Empty :(');
             if (cartList.length === 0) {
                 this.prodList.append(noProd);
             }
             cartList.forEach((prod) => {
-                const card = document.createElement('li');
-                card.className = 'product-in-cart';
-
-                const imgWrap = document.createElement('div');
-                imgWrap.className = 'product-in-cart__img-wrap';
-                const img = document.createElement('img');
-                img.className = 'product-in-cart__img';
+                const card = createDocElement('li', 'product-in-cart');
+                const imgWrap = createDocElement('div', 'product-in-cart__img-wrap');
+                const img = <HTMLImageElement>createDocElement('img', 'product-in-cart__img');
                 img.src = prod.images[0];
                 imgWrap.append(img);
 
                 function addBlock(el: string, name: string) {
-                    const block = document.createElement(el);
-                    block.className = `product-in-cart__${name}`;
-                    block.innerText = `${prod[name as keyof typeof prod]}`;
+                    const block = createDocElement(
+                        el,
+                        `product-in-cart__${name}`,
+                        `${prod[name as keyof typeof prod]}`
+                    );
                     return block;
                 }
-                const mainInfo = document.createElement('div');
-                mainInfo.className = 'product-in-cart__main-info';
-
+                const mainInfo = createDocElement('div', 'product-in-cart__main-info');
                 mainInfo.append(
                     addBlock('h3', 'title'),
                     addBlock('p', 'brand'),
@@ -52,15 +47,11 @@ export class CartList {
                     addBlock('p', 'description')
                 );
 
-                const additionalInfo = document.createElement('div');
-                additionalInfo.className = 'product-in-cart__add-info';
+                const additionalInfo = createDocElement('div', 'product-in-cart__add-info');
                 function addBlockadditional(name: string) {
-                    const block = document.createElement('div');
-                    block.className = `product-in-cart__${name}`;
-                    const svg = document.createElement('div');
-                    svg.className = `svg-${name}`;
-                    const text = document.createElement('div');
-                    text.innerText = `${prod[name as keyof typeof prod]}`;
+                    const block = createDocElement('div', `product-in-cart__${name}`);
+                    const svg = createDocElement('div', `svg-${name}`);
+                    const text = createDocElement('div', 'product-in-cart-text', `${prod[name as keyof typeof prod]}`);
                     block.append(svg, text);
                     return block;
                 }
@@ -70,18 +61,13 @@ export class CartList {
                     addBlockadditional('stock')
                 );
 
-                const actionBlock = document.createElement('div');
-                actionBlock.className = 'product-in-cart__action';
-
-                const totalBlock = document.createElement('div');
-                totalBlock.className = 'product-in-cart__total';
+                const actionBlock = createDocElement('div', 'product-in-cart__action');
+                const totalBlock = createDocElement('div', 'product-in-cart__total');
 
                 const currProd = currentProdArr.find((el) => el.id === prod.id);
 
-                const prodCount = document.createElement('p');
-                prodCount.className = 'product-in-cart__prod-count';
-                const money = document.createElement('p');
-                money.className = 'product-in-cart__money';
+                const prodCount = createDocElement('p', 'product-in-cart__prod-count');
+                const money = createDocElement('p', 'product-in-cart__money');
                 if (currProd) {
                     prodCount.innerText = `${currProd?.count}`;
                     money.innerText = `${currProd?.count * currProd?.price} $`;
@@ -92,8 +78,7 @@ export class CartList {
                 const addButton = (type: string) => {
                     const totalCount = document.querySelector('.count-in-summary');
                     const totalSum = document.querySelector('.total-in-summary');
-                    const btn = document.createElement('div');
-                    btn.className = `btn-in-cart__${type}`;
+                    const btn = createDocElement('div', `btn-in-cart__${type}`);
                     btn.addEventListener('click', (e) => {
                         if (type === 'plus' && currProd && Number(prodCount.innerText) !== prod.stock) {
                             prodCount.innerText = `${Number(prodCount.innerText) + 1}`;
@@ -154,8 +139,6 @@ export class CartList {
     }
 
     render() {
-        this.listSection.className = 'cart-list-section';
-        this.prodList.className = 'cart-list';
         this.listSection.append(this.createList());
         return this.listSection;
     }

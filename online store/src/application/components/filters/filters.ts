@@ -1,7 +1,8 @@
 import { QueryParams } from '../queryParams';
+import { createDocElement } from '../../utilites/utilites';
 
 export class FiltersList {
-    static filterSection = document.createElement('section');
+    static filterSection = createDocElement('section', 'filters');
     query: string;
     static categoriesArr = [
         'smartphones',
@@ -62,20 +63,16 @@ export class FiltersList {
     createCheckbox(criterion: string) {
         const query = new QueryParams();
         const queryParamsArr = query.getQueryParam(criterion);
-        const checkboxBlock = document.createElement('div');
-        checkboxBlock.className = 'checkbox';
-        const header = document.createElement('h3');
-        header.innerText = criterion.toUpperCase();
-        const formElement = document.createElement('form');
-        formElement.className = `filter-form ${criterion}`;
+        const checkboxBlock = createDocElement('div', 'checkbox');
+        const header = createDocElement('h3', 'checkbox__header', criterion.toUpperCase());
+        const formElement = createDocElement('form', `filter-form ${criterion}`);
         checkboxBlock.append(header, formElement);
 
         let arr;
         criterion === 'categories' ? (arr = FiltersList.categoriesArr) : (arr = FiltersList.brandsArr);
 
         arr.forEach((el) => {
-            const inputWrap = document.createElement('p');
-            inputWrap.className = 'filter-checkbox';
+            const inputWrap = createDocElement('p', 'filter-checkbox');
             let checked = false;
 
             for (let i = 0; i < queryParamsArr.length; i++) {
@@ -120,12 +117,9 @@ export class FiltersList {
         const query = new QueryParams();
         const queryParamsArrFrom = query.getQueryParam(criterion + 'From');
         const queryParamsArrTo = query.getQueryParam(criterion + 'To');
-        const rangeBlock = document.createElement('div');
-        rangeBlock.className = 'slider';
-        const header = document.createElement('h3');
-        header.innerText = criterion.toUpperCase();
-        const rangeWrap = document.createElement('div');
-        rangeWrap.className = `filter-slider ${criterion}`;
+        const rangeBlock = createDocElement('div', 'slider');
+        const header = createDocElement('h3', 'slider__header', criterion.toUpperCase());
+        const rangeWrap = createDocElement('div', `filter-slider ${criterion}`);
         rangeBlock.append(header, rangeWrap);
 
         let fromValue;
@@ -198,28 +192,23 @@ export class FiltersList {
     }
 
     createBtnBlock() {
-        const btnClear = document.createElement('button');
-        btnClear.innerText = 'Reset Filters';
+        const btnClear = createDocElement('button', 'button-clear', 'Reset Filters');
         btnClear.addEventListener('click', () => {
             window.location.search = '';
         });
-        const btnCopy = document.createElement('button');
-        btnCopy.innerText = 'Copy Link';
+        const btnCopy = createDocElement('button', 'button-copy', 'Copy Link');
         btnCopy.addEventListener('click', () => {
             if (btnCopy.innerText === 'Copy Link') {
                 btnCopy.innerText = 'Copied!';
             }
             navigator.clipboard.writeText(window.location.href);
         });
-        const btnWrap = document.createElement('div');
-        btnWrap.className = 'filters__button-wrap';
+        const btnWrap = createDocElement('div', 'filters__button-wrap');
         btnWrap.append(btnClear, btnCopy);
         return btnWrap;
     }
 
     render() {
-        FiltersList.filterSection.className = 'filters';
-
         if (!FiltersList.filterSection.firstChild) {
             FiltersList.filterSection.append(
                 this.createBtnBlock(),

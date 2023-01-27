@@ -4,6 +4,7 @@ import { Cart } from '../cart/cart';
 import { ControlPanel } from '../control panel/controlPanel';
 import { QueryParams } from '../queryParams';
 import { Products } from './getProducts';
+import { createDocElement } from '../../utilites/utilites';
 
 export class ProductsList {
     private products: Products;
@@ -18,7 +19,7 @@ export class ProductsList {
         this.cart = new Cart();
     }
 
-    private prodSection = document.createElement('section');
+    private prodSection = createDocElement('section', 'products');
     private prodList = document.createElement('div');
 
     createProdListBlock() {
@@ -84,12 +85,10 @@ export class ProductsList {
             }
 
             myList.forEach((productItem) => {
-                const card = document.createElement('div');
-                card.className = 'card';
+                const card = createDocElement('div', 'card');
 
                 const prodItemWrap = document.createElement('a');
-                const prodImageWrap = document.createElement('div');
-                prodImageWrap.classList.add('product-image-wrap');
+                const prodImageWrap = createDocElement('div', 'product-image-wrap');
 
                 if (viewParam === 'tile-view' || !viewParam) {
                     card.className = 'card';
@@ -102,8 +101,7 @@ export class ProductsList {
                 const href = `#${PageIds.ProductPage}/${productItem.id}`;
                 prodItemWrap.href = href;
 
-                const prodDescription = document.createElement('div');
-                prodDescription.classList.add('prod-item-description');
+                const prodDescription = createDocElement('div', 'prod-item-description');
                 prodDescription.insertAdjacentHTML('beforeend', `<h3>${productItem.title}</h3>`);
                 prodDescription.insertAdjacentHTML('beforeend', `<div>Category: ${productItem.category}</div>`);
                 prodDescription.insertAdjacentHTML('beforeend', `<div>Brand: ${productItem.brand}</div>`);
@@ -127,8 +125,7 @@ export class ProductsList {
     }
 
     addCartButton(id: number, price: number, className: string) {
-        const addBtn = document.createElement('button');
-        addBtn.className = `add-button ${className}`;
+        const addBtn = createDocElement('button', `add-button ${className}`);
 
         const currentProdArr = this.cart.getProductsInCart();
         const currentIdArr = currentProdArr.map((prod) => prod.id);
@@ -157,7 +154,6 @@ export class ProductsList {
     }
 
     render() {
-        this.prodSection.className = 'products';
         const viewParam = this.params.getViewParam();
         if (viewParam === 'tile-view' || !viewParam) {
             this.prodList.className = 'items-wrap';

@@ -1,11 +1,11 @@
 import { QueryParams } from '../queryParams';
+import { createDocElement } from '../../utilites/utilites';
 export class ControlPanel {
-    controlBlock = document.createElement('div');
+    controlBlock = createDocElement('div', 'control');
     query = new QueryParams();
 
     createSearch() {
-        const inputText = document.createElement('input');
-        inputText.className = 'search';
+        const inputText = <HTMLInputElement>createDocElement('input', 'search');
         inputText.setAttribute('type', 'text');
         inputText.setAttribute('autofocus', 'true');
         inputText.setAttribute('placeholder', 'Search product');
@@ -26,8 +26,7 @@ export class ControlPanel {
     }
 
     createSort() {
-        const select = document.createElement('select');
-        select.className = 'sort';
+        const select = <HTMLSelectElement>createDocElement('select', 'sort');
         select.setAttribute('size', '1');
         select.innerHTML = `<option disabled>Sort by:</option>\
             <option value = "price-asc">Price ASC</option>\
@@ -59,12 +58,10 @@ export class ControlPanel {
     }
 
     createViewButtons() {
-        const buttonsWrap = document.createElement('div');
-        buttonsWrap.className = 'view';
+        const buttonsWrap = createDocElement('div', 'view');
         const btnArr = ['tile-view', 'list-view'];
         btnArr.forEach((buttonClass) => {
-            const btn = document.createElement('button');
-            btn.className = `view-button ${buttonClass}`;
+            const btn = createDocElement('button', `view-button ${buttonClass}`);
             const viewParam = this.query.getViewParam();
             if (viewParam === buttonClass) {
                 btn.classList.add('active-view');
@@ -86,14 +83,12 @@ export class ControlPanel {
     }
 
     createProductsAmount() {
-        const amountBlock = document.createElement('div');
-        amountBlock.className = 'products-amount';
+        const amountBlock = createDocElement('div', 'products-amount');
         amountBlock.innerHTML = `<span>Find products: </span><span class = "products-amount__num">0</span>`;
         return amountBlock;
     }
 
     render() {
-        this.controlBlock.className = 'control';
         this.controlBlock.append(
             this.createSearch(),
             this.createSort(),

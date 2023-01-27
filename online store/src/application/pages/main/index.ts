@@ -1,6 +1,7 @@
 import { FiltersList } from '../../components/filters/filters';
 import { ProductsList } from '../../components/products list/productsList';
 import { Page } from '../../patterns/pagePattern';
+import { createDocElement } from '../../utilites/utilites';
 
 class MainPage extends Page {
     static TextObj = {
@@ -19,8 +20,7 @@ class MainPage extends Page {
     render() {
         const title = this.createHeader('Catalog');
         this.container.append(title);
-        const main = document.createElement('main');
-        main.className = 'main-page-main';
+        const main = createDocElement('main', 'main-page-main');
         main.append(this.filters.render(), this.productsList.render());
         this.container.append(main);
         return this.container;

@@ -1,6 +1,7 @@
 import { Total } from '../../components/cart/totalBlock';
 import { CartList } from '../../components/products list/cartList';
 import { Page } from '../../patterns/pagePattern';
+import { createDocElement } from '../../utilites/utilites';
 export class CartPage extends Page {
     private cartList: CartList;
     private total: Total;
@@ -13,8 +14,7 @@ export class CartPage extends Page {
 
     render() {
         const title = this.createHeader(`Products in cart`);
-        const main = document.createElement('main');
-        main.className = 'cart-page-main';
+        const main = createDocElement('main', 'cart-page-main');
         main.prepend(this.cartList.render(), this.total.render());
         this.container.append(title, main);
         return this.container;
