@@ -22,25 +22,20 @@ class Header extends Component {
         this.cart = new Cart();
     }
 
-    renderPageButtons() {
-        const pageButtons = createDocElement('nav', 'header__nav');
-        buttons.forEach((button) => {
-            const buttonHTML = <HTMLAnchorElement>createDocElement('a', 'header__nav-link');
-            buttonHTML.href = `#${button.id}`;
-            buttonHTML.innerHTML = `<div class = "header__ico ${
-                button.text.split(' ')[0].toLowerCase() + '-link'
-            }"></div>\
-            <div class = "header__text ${button.text.split(' ')[0].toLowerCase() + '-nav-text'}">Online Store</div>`;
-            pageButtons.append(buttonHTML);
-        });
-        const catrText = pageButtons.querySelector('.cart-nav-text');
-        catrText?.remove();
+    private pageButtons = createDocElement('nav', 'header__nav');
 
-        const cart = pageButtons.lastChild;
+    private createButton(button: { id: PageIds; text: string }) {
+        const buttonHTML = <HTMLAnchorElement>createDocElement('a', 'header__nav-link');
+        buttonHTML.href = `#${button.id}`;
+        buttonHTML.innerHTML = `<div class = "header__ico ${button.text.split(' ')[0].toLowerCase() + '-link'}"></div>\
+        <div class = "header__text ${button.text.split(' ')[0].toLowerCase() + '-nav-text'}">Online Store</div>`;
+        this.pageButtons.append(buttonHTML);
+    }
+
+    private getProductsStat() {
         const amountOfProduct = createDocElement('p', 'cart-amount');
         const totalSumBlock = createDocElement('p', 'total-sum');
         totalSumBlock.innerHTML = `<span class = "money">0 </span><span>$</span>`;
-
         const prodInCart = this.cart.getProductsInCart();
         let prodCounter = 0;
         let totalSum = 0;
@@ -51,14 +46,26 @@ class Header extends Component {
         });
 
         amountOfProduct.innerText = `${prodCounter}`;
-
         if (totalSumBlock.firstChild) {
             (<HTMLElement>totalSumBlock.firstChild).innerText = `${totalSum}`;
         }
+        return { amount: amountOfProduct, sum: totalSumBlock };
+    }
 
-        cart?.appendChild(amountOfProduct);
-        cart?.appendChild(totalSumBlock);
-        this.container.append(pageButtons);
+    renderPageButtons() {
+        buttons.forEach((button) => {
+            return this.createButton(button);
+        });
+
+        const catrText = this.pageButtons.querySelector('.cart-nav-text');
+        catrText?.remove();
+
+        const cart = this.pageButtons.lastChild;
+        const prodStat = this.getProductsStat();
+
+        cart?.appendChild(prodStat.amount);
+        cart?.appendChild(prodStat.sum);
+        this.container.append(this.pageButtons);
     }
 
     render() {

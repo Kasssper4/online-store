@@ -88,8 +88,7 @@ export class ProductsList {
         const prodImageWrap = createDocElement('div', 'product-image-wrap');
         this.addViewClassname(card, prodItemWrap);
 
-        const href = `#${PageIds.ProductPage}/${productItem.id}`;
-        prodItemWrap.href = href;
+        prodItemWrap.href = `#${PageIds.ProductPage}/${productItem.id}`;
         const prodDescription = createDocElement('div', 'prod-item-description');
         prodDescription.insertAdjacentHTML('beforeend', `<h3>${productItem.title}</h3>`);
         prodDescription.insertAdjacentHTML('beforeend', `<div>Category: ${productItem.category}</div>`);
