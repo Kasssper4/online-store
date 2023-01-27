@@ -1,17 +1,4 @@
 export class QueryParams {
-    paramArr = [
-        'categories',
-        'brand',
-        'priceFrom',
-        'priceTo',
-        'stockFrom',
-        'stockTo',
-        'search',
-        'sort',
-        'view',
-        'modal',
-    ];
-
     getQueryParam(criterion: string) {
         const url = new URL(window.location.href);
         const params = new URLSearchParams(url.search);
@@ -23,18 +10,23 @@ export class QueryParams {
         const params = new URLSearchParams(url.search);
 
         function getRangeArr(criterion: string) {
-            let resArr: (string | null)[] = [];
-
             if (params.get(`${criterion}From`) && params.get(`${criterion}To`)) {
-                resArr = [params.get(`${criterion}From`), params.get(`${criterion}To`)];
-            } else if (params.get(`${criterion}From`) && criterion === 'price') {
-                resArr = [params.get(`${criterion}From`), '1749'];
-            } else if (params.get(`${criterion}From`) && criterion === 'stock') {
-                resArr = [params.get(`${criterion}From`), '150'];
-            } else if (params.get(`${criterion}To`)) {
-                resArr = ['0', params.get(`${criterion}To`)];
+                return [params.get(`${criterion}From`), params.get(`${criterion}To`)];
             }
-            return resArr;
+
+            if (params.get(`${criterion}From`) && criterion === 'price') {
+                return [params.get(`${criterion}From`), '1749'];
+            }
+
+            if (params.get(`${criterion}From`) && criterion === 'stock') {
+                return [params.get(`${criterion}From`), '150'];
+            }
+
+            if (params.get(`${criterion}To`)) {
+                return ['0', params.get(`${criterion}To`)];
+            }
+
+            return [];
         }
 
         const paramsObj = {

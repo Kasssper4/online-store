@@ -3,7 +3,7 @@ import { QueryParams } from '../queryParams';
 export class FiltersList {
     static filterSection = document.createElement('section');
     query: string;
-    static categotiesArr = [
+    static categoriesArr = [
         'smartphones',
         'laptops',
         'fragrances',
@@ -71,7 +71,7 @@ export class FiltersList {
         checkboxBlock.append(header, formElement);
 
         let arr;
-        criterion === 'categories' ? (arr = FiltersList.categotiesArr) : (arr = FiltersList.brandsArr);
+        criterion === 'categories' ? (arr = FiltersList.categoriesArr) : (arr = FiltersList.brandsArr);
 
         arr.forEach((el) => {
             const inputWrap = document.createElement('p');

@@ -9,14 +9,14 @@ export class ControlPanel {
         inputText.setAttribute('type', 'text');
         inputText.setAttribute('autofocus', 'true');
         inputText.setAttribute('placeholder', 'Search product');
-        const querySarchArr = this.query.getQueryParam('search');
-        if (querySarchArr.length > 0) {
-            inputText.value = querySarchArr[0];
+        const querySearchArr = this.query.getQueryParam('search');
+        if (querySearchArr.length > 0) {
+            inputText.value = querySearchArr[0];
         }
         inputText.addEventListener('input', () => {
             const url = new URL(window.location.href);
             const params = new URLSearchParams(url.search);
-            if (querySarchArr.length > 0) {
+            if (querySearchArr.length > 0) {
                 params.delete('search');
             }
             params.append('search', inputText.value);
@@ -29,12 +29,11 @@ export class ControlPanel {
         const select = document.createElement('select');
         select.className = 'sort';
         select.setAttribute('size', '1');
-        select.innerHTML =
-            '<option disabled>Sort by:</option>\
+        select.innerHTML = `<option disabled>Sort by:</option>\
             <option value = "price-asc">Price ASC</option>\
             <option value = "price-desc">Price DESC</option>\
             <option value = "rating-asc">Rating ASC</option>\
-            <option value = "rating-desc">Rating DESC</option>';
+            <option value = "rating-desc">Rating DESC</option>`;
 
         const querySortArr = this.query.getQueryParam('sort');
         if (querySortArr.length === 0) {
@@ -89,7 +88,7 @@ export class ControlPanel {
     createProductsAmount() {
         const amountBlock = document.createElement('div');
         amountBlock.className = 'products-amount';
-        amountBlock.innerHTML = '<span>Find products: </span><span class = "products-amount__num">0</span>';
+        amountBlock.innerHTML = `<span>Find products: </span><span class = "products-amount__num">0</span>`;
         return amountBlock;
     }
 

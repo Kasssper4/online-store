@@ -42,7 +42,7 @@ class Header extends Component {
         const totalSumBlock = document.createElement('p');
         amountOfProduct.className = 'cart-amount';
         totalSumBlock.className = 'total-sum';
-        totalSumBlock.innerHTML = '<span class = "money">0 </span><span>$</span>';
+        totalSumBlock.innerHTML = `<span class = "money">0 </span><span>$</span>`;
 
         const prodInCart = this.cart.getProductsInCart();
         let prodCounter = 0;
@@ -61,14 +61,6 @@ class Header extends Component {
 
         cart?.appendChild(amountOfProduct);
         cart?.appendChild(totalSumBlock);
-
-        // window.addEventListener('storage', () => {
-        //     console.log(1);
-        //     if (prodInCart) {
-        //         amountOfProduct.innerText = `${JSON.parse(prodInCart).length}`;
-        //     }
-        // });
-
         this.container.append(pageButtons);
     }
 

@@ -66,15 +66,12 @@ class App {
                 App.renderNewPage(window.location.hash.slice(1), '');
             } else if (window.location.hash === '#cart-page') {
                 App.renderNewPage('cart-page', window.location.search);
-            } else {
-                console.log(1);
             }
         });
     }
 
     run() {
         App.container.append(App.header.render());
-        // App.renderNewPage('main-page', window.location.search);
         App.renderNewPage(this.localStorageCheck(), window.location.search);
         this.enableRouteChange();
         this.findRouteWhenLoad();

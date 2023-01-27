@@ -80,7 +80,7 @@ export class ProductsList {
             }
 
             if (myList.length === 0) {
-                this.prodList.innerHTML = '<h2 class = "no-products">No products found</h2>';
+                this.prodList.innerHTML = `<h2 class = "no-products">No products found</h2>`;
             }
 
             myList.forEach((productItem) => {

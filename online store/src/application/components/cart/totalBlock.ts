@@ -1,6 +1,7 @@
 import { QueryParams } from '../queryParams';
 import { Cart } from './cart';
 import { ModalWindow } from './modalWindow';
+import { createDocElement } from '../../utilites/utilites';
 
 export class Total {
     private cart: Cart;
@@ -18,8 +19,12 @@ export class Total {
         { name: 'RS', discount: 10 },
         { name: 'EPM', discount: 10 },
     ];
+    private summary = createDocElement('div', 'cart-summary');
+    private totalSumBlock = createDocElement('h2', 'cart-summary__sum');
+    private newTotal = createDocElement('h2', 'cart-summary__sum');
+    private discount = 0;
 
-    createTotal() {
+    private getTotalSumAndCount() {
         const currentProdArr = this.cart.getProductsInCart();
         let prodCounter = 0;
         let totalSum = 0;
@@ -29,79 +34,92 @@ export class Total {
             totalSum += prod.price * prod.count;
         });
 
-        const summary = document.createElement('div');
-        summary.className = 'cart-summary';
-        const productCount = document.createElement('p');
-        productCount.className = 'cart-summary__count';
-        productCount.innerHTML = `Products: <span class = "count-in-summary">${prodCounter}</span>`;
-        const totalSumBlock = document.createElement('h2');
-        totalSumBlock.className = 'cart-summary__sum';
-        totalSumBlock.innerHTML = `Total: <span class = "total-in-summary">${totalSum}</span>$`;
-        const promo = document.createElement('div');
-        promo.className = 'cart-summary__promo';
-        const promoText = document.createElement('p');
-        promoText.className = 'promo-text';
-        promoText.innerText = 'Promo code:';
-        const input = document.createElement('input');
+        return { count: prodCounter, sum: totalSum };
+    }
+
+    private checkInputPromo(value: string) {
+        const promoEl = this.promoArr.find((el) => {
+            if (el.name === value.toLowerCase() || el.name === value.toUpperCase()) return el;
+        });
+        const addingPromo = Array.from(this.summary.children).map((el) => el.id);
+        if (promoEl && !addingPromo.includes(promoEl.name)) return promoEl;
+        return '';
+    }
+
+    private changeNewTotalSum() {
+        const finalSum = Math.floor(
+            Number(document.querySelector('.money')?.innerHTML) * ((100 - this.discount) / 100)
+        );
+        this.newTotal.innerHTML = `Total: <span class = "discount-in-summary" id = "d:${this.discount}">${finalSum}</span>$`;
+    }
+
+    private createRemovePromo(promoDiscount: number, newPromoEl: HTMLElement) {
+        const removeBtn = createDocElement('div', 'promo-code__remove');
+
+        removeBtn.addEventListener('click', () => {
+            this.discount -= promoDiscount;
+            if (this.discount === 0) {
+                this.newTotal.innerText = '';
+                this.totalSumBlock.style.textDecoration = 'none';
+            } else {
+                this.changeNewTotalSum();
+            }
+            newPromoEl.remove();
+        });
+        return removeBtn;
+    }
+
+    private createNewPromoBlock(promoName: string, promoDiscount: number) {
+        const newPromo = createDocElement('div', 'promo-code');
+        newPromo.id = promoName;
+        newPromo.innerHTML = `<p class = "promo-code__text">${promoName} -${promoDiscount}%</p>`;
+        const removeBtn = this.createRemovePromo(promoDiscount, newPromo);
+        newPromo.append(removeBtn);
+        return newPromo;
+    }
+
+    private createBuyButton() {
+        const buyBtn = createDocElement('button', 'cart-buy', 'Buy now');
+        buyBtn.addEventListener('click', () => {
+            this.modal.openModal();
+        });
+        return buyBtn;
+    }
+
+    createTotal() {
+        const totalInfo = this.getTotalSumAndCount();
+        const productCount = createDocElement('p', 'cart-summary__count');
+        productCount.innerHTML = `Products: <span class = "count-in-summary">${totalInfo.count}</span>`;
+        this.totalSumBlock.innerHTML = `Total: <span class = "total-in-summary">${totalInfo.sum}</span>$`;
+        const promo = createDocElement('div', 'cart-summary__promo');
+        const promoText = createDocElement('p', 'promo-text', 'Promo code:');
+        const input = <HTMLInputElement>createDocElement('input', 'promo-input');
         input.setAttribute('type', 'text');
         input.setAttribute('placeholder', 'Test promo: RS, EPM');
-        input.className = 'promo-input';
-        let discount = 0;
-        const newTotal = document.createElement('h2');
-        newTotal.className = 'cart-summary__sum';
+
         input.addEventListener('change', () => {
-            const promoEl = this.promoArr.find((el) => {
-                if (el.name === input.value.toLowerCase() || el.name === input.value.toUpperCase()) return el;
-            });
-            const addingPromo = Array.from(summary.children).map((el) => el.id);
+            const promoEl = this.checkInputPromo(input.value);
 
-            if (promoEl && !addingPromo.includes(promoEl.name)) {
-                const newPromo = document.createElement('div');
-                newPromo.className = 'promo-code';
-                newPromo.id = promoEl.name;
-                newPromo.innerHTML = `<p class = "promo-code__text">${input.value} -${promoEl.discount}%</p>`;
-                const removeBtn = document.createElement('div');
-                removeBtn.className = 'promo-code__remove';
-                discount += promoEl.discount;
-                totalSumBlock.style.textDecoration = 'line-through';
+            if (promoEl) {
+                const newPromo = this.createNewPromoBlock(promoEl.name, promoEl.discount);
+                this.discount += promoEl.discount;
+                this.totalSumBlock.style.textDecoration = 'line-through';
 
-                const resSum = Math.floor(
-                    Number(document.querySelector('.money')?.innerHTML) * ((100 - discount) / 100)
-                );
-                newTotal.innerHTML = `Total: <span class = "discount-in-summary" id = "d:${discount}">${resSum}</span>$`;
+                this.changeNewTotalSum();
 
-                newPromo.append(removeBtn);
                 promo.after(newPromo);
-                removeBtn.addEventListener('click', () => {
-                    discount -= promoEl.discount;
-                    if (discount === 0) {
-                        newTotal.innerText = '';
-                        totalSumBlock.style.textDecoration = 'none';
-                    } else {
-                        const finalSum = Math.floor(
-                            Number(document.querySelector('.money')?.innerHTML) * ((100 - discount) / 100)
-                        );
-                        newTotal.innerHTML = `Total: <span class = "discount-in-summary" id = "d:${discount}">${finalSum}</span>$`;
-                    }
-                    newPromo.remove();
-                });
-                if (newTotal.innerText !== '') {
-                    totalSumBlock.after(newTotal);
+
+                if (this.newTotal.innerText !== '') {
+                    this.totalSumBlock.after(this.newTotal);
                 }
             }
             input.value = '';
         });
         promo.append(promoText, input);
-        summary.append(productCount, promo, totalSumBlock);
-        const buyBtn = document.createElement('button');
-        buyBtn.className = 'cart-buy';
-        buyBtn.innerText = 'Buy now';
+        this.summary.append(productCount, promo, this.totalSumBlock);
+        const buyBtn = this.createBuyButton();
 
-        this.totalSection.append(summary, buyBtn, this.modal.render());
-
-        buyBtn.addEventListener('click', () => {
-            this.modal.openModal();
-        });
+        this.totalSection.append(this.summary, buyBtn, this.modal.render());
 
         if (this.query.getModalParam() === 'yes') {
             this.modal.openModal();
